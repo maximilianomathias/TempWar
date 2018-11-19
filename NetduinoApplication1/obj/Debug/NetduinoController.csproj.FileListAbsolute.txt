@@ -1,0 +1,222 @@
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.exe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.exe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\NetduinoApplication1.exe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.dll
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.dll
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.dll
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.dll
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.pdb
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pe
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
+G:\Proyectos\MDV\2016\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.exe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.exe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.exe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.dll
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.dll
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.dll
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.dll
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.pdb
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoController.csprojResolveAssemblyReference.cache
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\TinyCLR_DebugReferences.cache
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
+G:\Proyectos\MDV\2018-2019\Esqueleto\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NETDuinoWar.dll
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.dll
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.dll
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.dll
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.dll
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoController.csprojResolveAssemblyReference.cache
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\TinyCLR_DebugReferences.cache
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+C:\Users\Mathias\Desktop\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.exe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.exe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.exe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\NetduinoApplication1.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.dll
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.dll
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.dll
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.dll
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.pdb
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoController.csprojResolveAssemblyReference.cache
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\TinyCLR_DebugReferences.cache
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
+D:\Julia\Desktop\MDV\NetduinoServer for TemperatureWar 4.3\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\le\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\be\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\NETDuinoWar.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\LE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\NETDuinoWar.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.AnalogInput.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.Netduino.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\BE\SecretLabs.NETMF.Hardware.NetduinoPlus.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\NETDuinoWar.dll
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.dll
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.dll
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.dll
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.dll
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.AnalogInput.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.Netduino.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\bin\Debug\SecretLabs.NETMF.Hardware.NetduinoPlus.pdb
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\NetduinoController.csprojResolveAssemblyReference.cache
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\TinyCLR_DebugReferences.cache
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\be\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
+C:\Users\Mathias\Desktop\TempWar\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
