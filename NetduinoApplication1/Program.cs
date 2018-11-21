@@ -17,6 +17,9 @@ namespace NetduinoController
 {
     public class Program {
 
+        private static OutputPort pruebaRelay = new OutputPort(Pins.GPIO_PIN_D13, false);
+        private static OutputPort pruebaRelay2 = new OutputPort(Pins.GPIO_PIN_D12, false);
+
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         
         public static void Main() {
@@ -75,7 +78,7 @@ namespace NetduinoController
             // Blink the led to indicate we're in competition
             new Thread(blink).Start();
 
-            // TODO: Do the competition stuff here
+            // TODO: Do thºe competition stuff here
             while (Datos.competi) {
 
                 /**
@@ -164,6 +167,14 @@ namespace NetduinoController
             */
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
+                if (Datos.tempAct > 30) {
+                    pruebaRelay.Write(true);
+                }
+                if (Datos.tempAct < 25)
+                {
+                    pruebaRelay2.Write(true);
+                }
+                
                 /*valor = a0.Read();
                 voltage = valor * 3.3 / 1024;
                 Datos.tempAct = (voltage - 0.5) * 100;
