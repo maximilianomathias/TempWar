@@ -266,3 +266,14 @@ C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\obj\Deb
 C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\obj\Debug\le\NetduinoApplication1.pdbx
 C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\obj\Debug\NetduinoApplication1.exe
 C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\obj\Debug\NetduinoApplication1.pdb
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\LE\Netduino.Foundation.Displays.MicroLiquidCrystal.pe
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\LE\Netduino.Foundation.pe
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\BE\Netduino.Foundation.Displays.MicroLiquidCrystal.pe
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\BE\Netduino.Foundation.pe
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\LE\Netduino.Foundation.Displays.MicroLiquidCrystal.pdbx
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\LE\Netduino.Foundation.pdbx
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\BE\Netduino.Foundation.Displays.MicroLiquidCrystal.pdbx
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\BE\Netduino.Foundation.pdbx
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\Netduino.Foundation.Displays.MicroLiquidCrystal.dll
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\Netduino.Foundation.dll
+C:\Users\Mathias\Desktop\uc3m\MDV\Practicas\TempWar\NetduinoApplication1\bin\Debug\Netduino.Foundation.pdb
