@@ -160,14 +160,11 @@ Pins.GPIO_PIN_D11,  // RS
             lcd.Begin(16, 2);
 
             lcd.SetCursorPosition(0, 0);
-            lcd.Write("Temp:");
-
-            lcd.SetCursorPosition(0, 1);
-            lcd.Write("Tiempo:");
+            lcd.Write(Datos.tempMax.ToString("N1") + " - " + Datos.tempMin.ToString("N1"));
 
             int tiempo = 0;
 
-            int cont = 10;
+            int cont = 0;
 
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
@@ -197,45 +194,40 @@ Pins.GPIO_PIN_D11,  // RS
 
                         ushort temperature = (byte)_oneWire.ReadByte();
                         temperature |= (ushort)(_oneWire.ReadByte() << 8); // MSB
-                        
 
                         tiempo++;
                         Datos.tempAct = temperature / 16.0;
+
+
+                        if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin)
+                        {
+                            cont++;
+                        }
+
+
+                        Datos.timeInRangeTemp = cont;
+
+
                         //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
                         Debug.Print("Temperature: " + Datos.tempAct + "° C");
-                        
-                        
 
-                        lcd.SetCursorPosition(6, 0);                
+                        lcd.SetCursorPosition(13, 0);
+                        lcd.Write(Datos.timeLeft.ToString());
+
+                        lcd.SetCursorPosition(0, 1);                
                         lcd.Write(Datos.tempAct.ToString("N1") + "C");
 
-                        
-                        lcd.SetCursorPosition(8,1);
-                        lcd.Write(tiempo.ToString());
-
-                        lcd.SetCursorPosition(12, 1);
-                        lcd.Write(cont.ToString());
+                        lcd.SetCursorPosition(13,1);
+                        lcd.Write(Datos.timeInRangeTemp.ToString());
 
                         Thread.Sleep(1000);
 
-                        lcd.SetCursorPosition(6, 0);
-                        lcd.Write("          ");
+                        lcd.SetCursorPosition(12, 0);
+                        lcd.Write("    ");
 
-
-                        lcd.SetCursorPosition(8, 1);
-                        lcd.Write("        ");
-
-                        if(cont > 0){
-                            cont--;
-                        }
-                        else
-                        {
-                            cont = 0;
-                            lcd.Clear();
-                            lcd.SetCursorPosition(0, 0);
-                            lcd.Write("Fin: " + Datos.tempAct.ToString("N1") + "C");
-                            break;
-                        }
+                        lcd.SetCursorPosition(0, 1);
+                        lcd.Write("                ");
+                        
                         //lcd.Clear();
                         // lcd.ClearDisplay();
                         //lcd.Show("Temp:" + Datos.tempAct + " C", 200, true);
