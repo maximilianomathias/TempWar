@@ -206,12 +206,12 @@ Pins.GPIO_PIN_D11,  // RS
                         {
                             cont++;
                         }
-                        if (Datos.tempAct >= 30)
+                        if (Datos.tempAct >= (Datos.tempMax-2))
                         {
                             pruebaRelay.Write(true);
                             pruebaRelay2.Write(false);
                         }
-                        if (Datos.tempAct <= 25)
+                        if (Datos.tempAct <= (Datos.tempMin+2))
                         {
                             pruebaRelay.Write(false);
                             pruebaRelay2.Write(true);
