@@ -16,11 +16,14 @@ namespace NetduinoController
 {
     public class Program {
 
+        private static OutputPort pruebaRelay = new OutputPort(Pins.GPIO_PIN_D13, false);
+        private static OutputPort pruebaRelay2 = new OutputPort(Pins.GPIO_PIN_D12, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         public static void Main() {
             // Create a WebServer
             MyWebServer server = new MyWebServer();
             I2CDevice sensor = new I2CDevice(new I2CDevice.Configuration(0x48, 50));
+
            // byte[] currentConfig = ReadTMP102Configuration(sensor);
             // Start the WebServer
             server.Start();
@@ -202,6 +205,16 @@ Pins.GPIO_PIN_D11,  // RS
                         if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin)
                         {
                             cont++;
+                        }
+                        if (Datos.tempAct >= 30)
+                        {
+                            pruebaRelay.Write(true);
+                            pruebaRelay2.Write(false);
+                        }
+                        if (Datos.tempAct <= 25)
+                        {
+                            pruebaRelay.Write(false);
+                            pruebaRelay2.Write(true);
                         }
 
 
