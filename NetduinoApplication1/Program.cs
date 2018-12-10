@@ -164,7 +164,9 @@ Pins.GPIO_PIN_D11,  // RS
 
             lcd.SetCursorPosition(0, 0);
             lcd.Write(Datos.tempMax.ToString("N1") + " - " + Datos.tempMin.ToString("N1"));
-
+            Double rango = Datos.tempMax - Datos.tempMin;
+            Double limiteSup = 0.25;
+            Double limiteInf = 0.25;
             int tiempo = 0;
 
             int cont = 0;
@@ -200,18 +202,19 @@ Pins.GPIO_PIN_D11,  // RS
 
                         tiempo++;
                         Datos.tempAct = temperature / 16.0;
+                        
 
 
-                        if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin)
+                        if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin && Datos.timeLeft != 0 )
                         {
                             cont++;
                         }
-                        if (Datos.tempAct >= (Datos.tempMax-2))
+                        if (Datos.tempAct >= (Datos.tempMax-rango*limiteSup))
                         {
                             pruebaRelay.Write(true);
                             pruebaRelay2.Write(false);
                         }
-                        if (Datos.tempAct <= (Datos.tempMin+2))
+                        if (Datos.tempAct <= (Datos.tempMin+rango*limiteInf))
                         {
                             pruebaRelay.Write(false);
                             pruebaRelay2.Write(true);

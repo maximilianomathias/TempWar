@@ -74,6 +74,7 @@ namespace NetduinoController.Web
 
                         // Return the index to web user.
                         e.ReturnString = writeHTML(message);
+                        
                         break;
                     }
                 case "setparams":
@@ -237,7 +238,8 @@ namespace NetduinoController.Web
             if (ready) cooler = "";
 
             //Write the HTML page
-            string html = "<!DOCTYPE html><html><head><title>Netduino Plus 2 Controller</title>" +
+            string html = "<!DOCTYPE html><html><head><title>Netduino Plus 2 Controller</title>"
+                            + "<style></style>" +
                             "<script>function save(){" +
                             "var tempMax = document.forms['params']['tempMax'].value;" +
                             "var tempMin = document.forms['params']['tempMin'].value;" +
@@ -250,7 +252,7 @@ namespace NetduinoController.Web
                             "function time(){window.location = 'http://" + IP + "/time';}" +
                             "function temp(){window.location = 'http://" + IP + "/temp';}" +
                             "function coolerMode(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/coolermode/' + pass;}</script></head>" +
-                            "<body><p style='padding:10px;font-weight:bold;'>" + message + "</p><form name='params'>" +
+                            "<body><p style='padding:10px;font-weight:bold; background-color: green;'>" + message + "</p><form name='params'>" +
                             "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
                             "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
                             "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
