@@ -165,7 +165,7 @@ Pins.GPIO_PIN_D11,  // RS
             lcd.SetCursorPosition(0, 0);
             lcd.Write(Datos.tempMax.ToString("N1") + " - " + Datos.tempMin.ToString("N1"));
             Double rango = Datos.tempMax - Datos.tempMin;
-            Double limiteSup = 0.25;
+            Double limiteSup = 0.35;
             Double limiteInf = 0.25;
             int tiempo = 0;
 
