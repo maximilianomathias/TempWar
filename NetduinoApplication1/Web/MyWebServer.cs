@@ -23,7 +23,8 @@ namespace NetduinoController.Web
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();  
 
             // Assign an static IP to the Netduino
-            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableStaticIP(IP, "255.255.255.0", "192.168.1.1");
+            Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableStaticIP(IP,
+                "255.255.255.0", "192.168.1.1");
 
             // Instantiate a new web server.
             server = new WebServer();
@@ -98,7 +99,12 @@ namespace NetduinoController.Web
                         }
 
                         // Validate the data
-                        if (e.Command.Arguments[1].ToString().Length == 0 || e.Command.Arguments[2].ToString().Length == 0 || e.Command.Arguments[3].ToString().Length == 0 || e.Command.Arguments[4].ToString().Length == 0 || e.Command.Arguments[5].ToString().Length == 0)
+                        if (e.Command.Arguments[1].ToString().Length == 0 || 
+                            e.Command.Arguments[2].ToString().Length == 0 || 
+                            e.Command.Arguments[3].ToString().Length == 0 || 
+                            e.Command.Arguments[4].ToString().Length == 0 || 
+                            e.Command.Arguments[5].ToString().Length == 0 
+                            /*e.Command.Arguments[6].ToString().Length == 0*/)
                         {
                             // Return feedback to web user.
                             msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
@@ -119,6 +125,8 @@ namespace NetduinoController.Web
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[3].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[4].ToString());
                         Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
+                        //Datos.rangeNumbers = (int.Parse(e.Command.Arguments[6].ToString()));
+                    
 
                         // Indicate we are ready
                         ready = true;
@@ -142,14 +150,13 @@ namespace NetduinoController.Web
                         // Check we're not in cometition
                         if (Datos.competi)
                         {
-                            
                             msgAux = "Ya estamos en competici&oacute;n.";
                             e.ReturnString = redirect("index");
                             break;
                         }
 
                         // Start the round
-                        new Thread(Program.startRound).Start();
+/*IMPORTANTE ---->*/    new Thread(Program.startRound).Start();
 
                         // Wait for the round to finish
                         while (Datos.competi)
@@ -167,7 +174,8 @@ namespace NetduinoController.Web
                         }
                         else
                         {
-                            msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";
+                            /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
+                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
                             e.ReturnString = redirect("index");
                         }
                         break;
