@@ -13,7 +13,7 @@ namespace NetduinoController
 
         public static bool competi = false;
         public static bool error = false;
-
+        public static int rangeNumbers = 1; // por defecto siempre habra un rango de inicio 
         public static int timeLeft = 0; //In s
         public static int timeInRangeTemp = 0; //In ms.
         public static Double tempAct; // In C

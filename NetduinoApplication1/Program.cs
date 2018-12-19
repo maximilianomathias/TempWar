@@ -163,14 +163,14 @@ Pins.GPIO_PIN_D11,  // RS
             lcd.Begin(16, 2);
 
             lcd.SetCursorPosition(0, 0);
-            lcd.Write(Datos.tempMax.ToString("N1") + " - " + Datos.tempMin.ToString("N1"));
+            lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
+
             Double rango = Datos.tempMax - Datos.tempMin;
-            Double limiteSup = 0.35;
-            Double limiteInf = 0.25;
+            Double limiteSup = 0.35 * rango;
+            Double limiteInf = 0.25 * rango;
+
             int tiempo = 0;
-
-            int cont = 0;
-
+            Datos.timeInRangeTemp = 0;
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
                 /*valor = a0.Read();
@@ -207,25 +207,33 @@ Pins.GPIO_PIN_D11,  // RS
 
                         if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin && Datos.timeLeft != 0 )
                         {
-                            cont++;
+                            Datos.timeInRangeTemp++;
                         }
-                        if (Datos.tempAct >= (Datos.tempMax-rango*limiteSup))
+                        if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
                         {
-                            pruebaRelay.Write(true); 
-                            pruebaRelay2.Write(false);
+                            pruebaRelay.Write(false); 
+                            pruebaRelay2.Write(true);
+                            Debug.Print("VENTILADOR");
                         }
-                        if (Datos.tempAct <= (Datos.tempMin+rango*limiteInf))
+                        else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
+                        {
+                            pruebaRelay.Write(true);
+                            pruebaRelay2.Write(false);
+                            Debug.Print("SECADOR");
+                        }else                                                   // APAGAMOS TODO
                         {
                             pruebaRelay.Write(false);
-                            pruebaRelay2.Write(true);
+                            pruebaRelay2.Write(false);
+                            Debug.Print("OFF - DENTRO DEL RANGO");
                         }
+                       
 
 
-                        Datos.timeInRangeTemp = cont;
+                        
 
 
                         //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
-                        Debug.Print("Temperature: " + Datos.tempAct + "° C");
+                        
 
                         lcd.SetCursorPosition(13, 0);
                         lcd.Write(Datos.timeLeft.ToString());
