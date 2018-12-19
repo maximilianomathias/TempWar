@@ -238,8 +238,8 @@ namespace NetduinoController.Web
             if (ready) cooler = "";
 
             //Write the HTML page
-            string html = "<!DOCTYPE html><html><head><title>Netduino Plus 2 Controller</title>"
-                            + "<style></style>" +
+            string html = "<!DOCTYPE html><html><head><title>Grupo 1 MDV</title>"
+                            + "<style> </style>" +
                             "<script>function save(){" +
                             "var tempMax = document.forms['params']['tempMax'].value;" +
                             "var tempMin = document.forms['params']['tempMin'].value;" +

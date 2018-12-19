@@ -211,7 +211,7 @@ Pins.GPIO_PIN_D11,  // RS
                         }
                         if (Datos.tempAct >= (Datos.tempMax-rango*limiteSup))
                         {
-                            pruebaRelay.Write(true);
+                            pruebaRelay.Write(true); 
                             pruebaRelay2.Write(false);
                         }
                         if (Datos.tempAct <= (Datos.tempMin+rango*limiteInf))
