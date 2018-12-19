@@ -37,13 +37,12 @@ namespace NetduinoController.Web
             // http://[server-ip]/start/pass
             // http://[server-ip]/coolermode/pass
             server.AllowedCommands.Add(new WebCommand("index", 0));
-            server.AllowedCommands.Add(new WebCommand("setparams", 7)); // lo he cambiado a 7 porque rangeNumber es uno más 
+            server.AllowedCommands.Add(new WebCommand("setparams", 6));
             server.AllowedCommands.Add(new WebCommand("start", 1));
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
             server.AllowedCommands.Add(new WebCommand("time", 0));
-            // esto es para que se introduzca el numero de rangos complejos permitidos. 
-         
+            
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace NetduinoController.Web
                         }
 
                         // Return the index to web user.
-                        e.ReturnString = writeHTML(message, 0);
+                        e.ReturnString = writeHTML(message);
                         
                         break;
                     }
@@ -215,13 +214,6 @@ namespace NetduinoController.Web
                         e.ReturnString = redirect("index");
                         break;
                     }
-                case "rangeNumber":
-                    {
-                        // aqui hacemos que imprima las veces que le indiquiemos. 
-                        msgAux = "Número de rangos seleccionados: " + Datos.rangeNumbers;
-                        e.ReturnString = redirect("index");
-                        break;
-                    }
             }
         }
 
@@ -230,7 +222,7 @@ namespace NetduinoController.Web
         /// </summary>
         /// <param name="message">The message you want to be shown.</param>
         /// <returns>String with the HTML page desired.</returns>
-        public static string writeHTML(String message, int comando) // el comando era para especificar que operación se hara dentro de esta fucnion
+        public static string writeHTML(String message)
         {
             // If we are already ready, disable all the inputs
             string disabled = "";
@@ -239,8 +231,6 @@ namespace NetduinoController.Web
             // Only show save and cooler mode in configuration mode and start round when we are ready
             string save = "<a href='#' onclick='save()'>Estoy Preparado - Guardar</a>";
             if (ready) save = "";
-            string rangos = "<a href='#' onclick=''>Preparar rangos - Guardar</a>";
-            if (ready) rangos = "";
             string start = "";
             if (ready) start = "<a style='padding-left:80px;' href='#' onclick='start()'>Comenzar Ronda</a>";
             if (Datos.competi) start = "";
@@ -256,12 +246,10 @@ namespace NetduinoController.Web
                             "var displayRefresh = document.forms['params']['displayRefresh'].value;" +
                             "var refresh = document.forms['params']['refresh'].value;" +
                             "var time = document.forms['params']['time'].value;" +
-                            "var rangeNumbers = document.forms['params']['rangeNumbers'].value;" +
                             "var pass = document.forms['params']['pass'].value;" +
                             "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;}" +
                             "function start(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/start/' + pass;}" +
                             "function time(){window.location = 'http://" + IP + "/time';}" +
-                            "function range(){window.location = 'http://" + IP + "/range';}" +
                             "function temp(){window.location = 'http://" + IP + "/temp';}" +
                             "function coolerMode(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/coolermode/' + pass;}</script></head>" +
                             "<body><p style='padding:10px;font-weight:bold; background-color: green;'>" + message + "</p><form name='params'>" +
@@ -270,9 +258,8 @@ namespace NetduinoController.Web
                             "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
                             "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
                             "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
-                            "<p>N&uacute;mero de rangos <b>(s)</b> <input name='time' type='number' value='" + Datos.rangeNumbers + "' " + disabled + "></input></p>" +
                             "<p>Contrase&ntilde;a <input name='pass' type='password'></input></p>" +
-                            "</form>" + save + start + rangos +"<br/>" + cooler + "<br/><a href='#' onclick='temp()'>Consultar Temperatura</a><br/><a href='#' onclick='time()'>Consultar Tiempo</a></body>";
+                            "</form>" + save + start + "<br/>" + cooler + "<br/><a href='#' onclick='temp()'>Consultar Temperatura</a><br/><a href='#' onclick='time()'>Consultar Tiempo</a></body>";
             return html;
         }
 

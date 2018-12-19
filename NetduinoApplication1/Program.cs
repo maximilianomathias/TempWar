@@ -228,10 +228,6 @@ Pins.GPIO_PIN_D11,  // RS
                         }
                        
 
-
-                        
-
-
                         //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
                         
 
