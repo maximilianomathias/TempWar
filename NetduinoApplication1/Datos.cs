@@ -1,5 +1,5 @@
 using System;
-using Microsoft.SPOT;
+using NETDuinoWar; // libreria para TemperatureRange[]
 
 namespace NetduinoController
 {
@@ -10,6 +10,9 @@ namespace NetduinoController
         public static int displayRefresh = 500; // In ms
         public static int refresh = 250; // In ms
         public static int roundTime = 60; // in s
+        
+
+        public static TemperatureRange[] rangos; // aqui guardamos las diferentes rondas. 
 
         public static bool competi = false;
         public static bool error = false;

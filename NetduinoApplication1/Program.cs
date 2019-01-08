@@ -86,7 +86,7 @@ namespace NetduinoController
                  * */
                 // Print current temperature
                Debug.Print("temperatura actual:");
-                Debug.Print(Datos.tempAct+100 + "");
+                Debug.Print(Datos.tempAct + "");
 
                 // Wait for the refresh rate
                 Thread.Sleep(Datos.refresh);

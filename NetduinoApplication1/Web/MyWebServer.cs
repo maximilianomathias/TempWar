@@ -38,7 +38,7 @@ namespace NetduinoController.Web
             // http://[server-ip]/start/pass
             // http://[server-ip]/coolermode/pass
             server.AllowedCommands.Add(new WebCommand("index", 0));
-            server.AllowedCommands.Add(new WebCommand("setparams", 6));
+            server.AllowedCommands.Add(new WebCommand("setparams", 100));
             server.AllowedCommands.Add(new WebCommand("start", 1));
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
@@ -254,19 +254,19 @@ namespace NetduinoController.Web
                             "<script>"+
                             "var i = 1;" +
                                  "function save(){" +
-                     
-                                "var tempMax = document.forms['params']['tempMax'].value;" +
-                                "var tempMin = document.forms['params']['tempMin'].value;" +
-                                "var displayRefresh = document.forms['params']['displayRefresh'].value;" +
-                                "var refresh = document.forms['params']['refresh'].value;" +
-                                "var time = document.forms['params']['time'].value;" +
-                                "var pass = document.forms['params']['pass'].value;" +
 
-                                "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;}" +
-                                "function start(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/start/' + pass;}" +
-                                "function time(){window.location = 'http://" + IP + "/time';}" +
-                                "function temp(){window.location = 'http://" + IP + "/temp';}" +
-                                "function coolerMode(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/coolermode/' + pass;}"+
+                                    "var tempMax = document.forms['params']['tempMax'].value;" +
+                                    "var tempMin = document.forms['params']['tempMin'].value;" +
+                                    "var displayRefresh = document.forms['params']['displayRefresh'].value;" +
+                                    "var refresh = document.forms['params']['refresh'].value;" +
+                                    "var time = document.forms['params']['time'].value;" +
+                                    "var pass = document.forms['params']['pass'].value;" +
+
+                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;}" +
+                                    "function start(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/start/' + pass;}" +
+                                    "function time(){window.location = 'http://" + IP + "/time';}" +
+                                    "function temp(){window.location = 'http://" + IP + "/temp';}" +
+                                    "function coolerMode(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/coolermode/' + pass;}"+
                             
                                 " function crearRango(){" +
 
@@ -277,29 +277,35 @@ namespace NetduinoController.Web
                                     "document.getElementById('tid').appendChild(mNewObj);" +
 
                                     "i++;}" +
+
                             "</script>" +
                             "<style>" +
-                             "#BOX {border: 1px solid black; padding: 10vh;z-index: 1;}" +
+                             "#BOX, #myP {border: 4px solid black; padding: 1vh;}" +
                              ".inner { border: 1px solid green; margin: 10px; width: auto; height: 20px; }" +
                             "</style>" +
 
                             "</head>" +
                             "<body>"+
-                                "<p style='padding:10px;font-weight:bold; background-color: green;'>" + message + "</p>"+
+                                "<p style='padding:10px;font-weight:bold; background-color: yellow;'>" + message + "</p>"+
                                 "<form name='params'>" +
                                     "<div id = 'myP'>" +
+                                       
                                         "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
                                         "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
                                         "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
                                         "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
                                         "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
                                     "</div>" +
+                                    "<div id='tid'></div>" + // aqui metemos el nuero rango
                                     "<p>Contrase&ntilde;a <input name='pass' type='password'></input></p>" +
 
-                                    "</form>" + save + start + "<br/>" + cooler + "<br/>" +
-                                    "<a href='#' onclick='temp()'>Consultar Temperatura</a><br/><a href='#' onclick='time()'>Consultar Tiempo</a><br/>" +
-                                    "<a href='#' onclick='crearRango()'>Crear rango</a><br/>" +
-                                "<div id='tid'></div>" +
+                                "</form>" 
+                                + save + start + "<br/>" + cooler + "<br/>" +
+                                "<a href='#' onclick='temp()'>Consultar Temperatura</a><br/><a href='#' onclick='time()'>Consultar Tiempo</a><br/>" +
+                                "<a href='#' onclick='crearRango()'>Crear rango</a><br/>" +
+
+                                
+
                                 "<form method = 'post'>"+
                                 "</form>" +
                             "</body>";
