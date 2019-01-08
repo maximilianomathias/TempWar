@@ -2,6 +2,7 @@ using System;
 using Microsoft.SPOT;
 using System.Threading;
 
+
 namespace NetduinoController.Web
 {
     class MyWebServer
@@ -9,6 +10,7 @@ namespace NetduinoController.Web
         private static readonly string pass = "pass";
         private static readonly string IP = "192.168.1.4";
         private static string msgAux = "";
+        private static string inputData = "";
 
         private WebServer server;
 
@@ -127,8 +129,8 @@ namespace NetduinoController.Web
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[3].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[4].ToString());
                         Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
+
                         
-                    
 
                         // Indicate we are ready
                         ready = true;
@@ -246,14 +248,25 @@ namespace NetduinoController.Web
             if (Datos.competi) start = "";
             string cooler = "<a href='#' onclick='coolerMode()'>Modo Enfriamiento</a>";
             if (ready) cooler = "";
-
+            string inputText = "";
             //Write the HTML page
             string html = "<!DOCTYPE html><html><head><title>Grupo 1 MDV</title>" +
 
-                            
-                            "<script>"+
+
+                            "<script type='text/javascript'>" +
                             "var i = 1;" +
-                                 "function save(){" +
+                            "var dataInput = new StringBuilder();"+
+                                 //funciones
+
+                                "function join_names() {"+
+                                    "var tempMin = document.getElementsByName('tempMin')[0].value;" +
+                                    "var tempMax = document.getElementsByName('tempMax')[0].value;" +
+                                    "var time = document.getElementsByName('time')[0];" +
+                                    "document.getElementById('joint').value = tempMin+'-'+ tempMax +'-'+time.value+'/';" +
+                                    "alert(document.getElementById('joint').value);"+
+                                "}" +
+                                                
+                                "function save(){" +
 
                                     "var tempMax = document.forms['params']['tempMax'].value;" +
                                     "var tempMin = document.forms['params']['tempMin'].value;" +
@@ -279,39 +292,45 @@ namespace NetduinoController.Web
                                     "i++;}" +
 
                             "</script>" +
+                            // CSS
                             "<style>" +
                              "#BOX, #myP, #globalData {border: 4px solid black; padding: 1vh;}" +
                              ".inner { border: 1px solid green; margin: 10px; width: auto; height: 20px; }" +
                             "</style>" +
-
+                            //HTML
                             "</head>" +
                             "<body>"+
                                 "<p style='padding:10px;font-weight:bold; background-color: yellow;'>" + message + "</p>"+
-                                "<form name='params'>" +
+                                "<form action='' name='params' method ='post'>" +
                                     "<div id = 'globalData'>"+
 
                                         "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
                                         "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
+
                                     "</div>"+
-                                    "<div id = 'myP'>" +
-                                       
-                                        "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
-                                        "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
+
+                                    "<div id = 'myP'>" + // este el el div que se crea cuando creamos un nuevo rango
+
+                                        "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' id='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
+                                        "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' id='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
+                                        "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' id='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
+                                        "<input type = 'hidden' id = 'joint'>"+
                                         
-                                        "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
-                                    "</div>" +
+                                        "<input type = 'submit' value = 'Set Round' onclick = 'join_names();' />" +
+
+                                          "</div>" +
+
                                     "<div id='tid'></div>" + // aqui metemos el nuero rango
                                     "<p>Contrase&ntilde;a <input name='pass' type='password'></input></p>" +
 
-                                "</form>" 
-                                + save + start + "<br/>" + cooler + "<br/>" +
+                                "</form>"+
+                                save + start + "<br/>" + cooler + "<br/>" +
                                 "<a href='#' onclick='temp()'>Consultar Temperatura</a><br/><a href='#' onclick='time()'>Consultar Tiempo</a><br/>" +
                                 "<a href='#' onclick='crearRango()'>Crear rango</a><br/>" +
 
-                                
-
                                 "<form method = 'post'>"+
                                 "</form>" +
+
                             "</body>";
 
             return html;
@@ -326,6 +345,8 @@ namespace NetduinoController.Web
         {
             return "<!DOCTYPE html><html><head><meta http-equiv='refresh' content='0; url=http://" + IP + "/" + page + "'></head></html>";
         }
+
+        
 
     }
 }

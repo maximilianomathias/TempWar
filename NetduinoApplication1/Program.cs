@@ -169,6 +169,8 @@ namespace NetduinoController
             Double limiteSup = 0.35 * rango;
             Double limiteInf = 0.25 * rango;
 
+            
+
             int tiempo = 0;
             Datos.timeInRangeTemp = 0;
             // Infinite loop that reads the temp and stores it in tempAct
@@ -214,6 +216,7 @@ namespace NetduinoController
                             pruebaRelay.Write(false); 
                             pruebaRelay2.Write(true);
                             //Debug.Print("VENTILADOR");
+                            
                         }
                         else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                         {
