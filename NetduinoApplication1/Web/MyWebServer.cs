@@ -38,7 +38,7 @@ namespace NetduinoController.Web
             // http://[server-ip]/start/pass
             // http://[server-ip]/coolermode/pass
             server.AllowedCommands.Add(new WebCommand("index", 0));
-            server.AllowedCommands.Add(new WebCommand("setparams", 100));
+            server.AllowedCommands.Add(new WebCommand("setparams", 6));
             server.AllowedCommands.Add(new WebCommand("start", 1));
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
@@ -280,7 +280,7 @@ namespace NetduinoController.Web
 
                             "</script>" +
                             "<style>" +
-                             "#BOX, #myP {border: 4px solid black; padding: 1vh;}" +
+                             "#BOX, #myP, #globalData {border: 4px solid black; padding: 1vh;}" +
                              ".inner { border: 1px solid green; margin: 10px; width: auto; height: 20px; }" +
                             "</style>" +
 
@@ -288,12 +288,16 @@ namespace NetduinoController.Web
                             "<body>"+
                                 "<p style='padding:10px;font-weight:bold; background-color: yellow;'>" + message + "</p>"+
                                 "<form name='params'>" +
+                                    "<div id = 'globalData'>"+
+
+                                        "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
+                                        "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
+                                    "</div>"+
                                     "<div id = 'myP'>" +
                                        
                                         "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
                                         "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
-                                        "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
-                                        "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
+                                        
                                         "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
                                     "</div>" +
                                     "<div id='tid'></div>" + // aqui metemos el nuero rango

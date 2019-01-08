@@ -85,8 +85,8 @@ namespace NetduinoController
                  * 
                  * */
                 // Print current temperature
-               Debug.Print("temperatura actual:");
-                Debug.Print(Datos.tempAct + "");
+               //Debug.Print("temperatura actual:");
+               //Debug.Print(Datos.tempAct + "");
 
                 // Wait for the refresh rate
                 Thread.Sleep(Datos.refresh);
@@ -146,17 +146,17 @@ namespace NetduinoController
             //lcd.Show("prueba",1000,true);
 
             var lcdProvider = new GpioLcdTransferProvider(
-Pins.GPIO_PIN_D11,  // RS
-        Pins.GPIO_NONE,     // RW
-        Pins.GPIO_PIN_D9,  // enable
-        Pins.GPIO_PIN_D2,   // d0
-        Pins.GPIO_PIN_D4,   // d1
-        Pins.GPIO_PIN_D6,   // d2
-        Pins.GPIO_PIN_D8,   // d3
-        Pins.GPIO_PIN_D7,   // d4
-        Pins.GPIO_PIN_D5,   // d5
-        Pins.GPIO_PIN_D3,   // d6
-        Pins.GPIO_PIN_D1);  // d7
+            Pins.GPIO_PIN_D11,  // RS
+            Pins.GPIO_NONE,     // RW
+            Pins.GPIO_PIN_D9,  // enable
+            Pins.GPIO_PIN_D2,   // d0
+            Pins.GPIO_PIN_D4,   // d1
+            Pins.GPIO_PIN_D6,   // d2
+            Pins.GPIO_PIN_D8,   // d3
+            Pins.GPIO_PIN_D7,   // d4
+            Pins.GPIO_PIN_D5,   // d5
+            Pins.GPIO_PIN_D3,   // d6
+            Pins.GPIO_PIN_D1);  // d7
 
             var lcd = new Lcd(lcdProvider);
 
@@ -213,18 +213,18 @@ Pins.GPIO_PIN_D11,  // RS
                         {
                             pruebaRelay.Write(false); 
                             pruebaRelay2.Write(true);
-                            Debug.Print("VENTILADOR");
+                            //Debug.Print("VENTILADOR");
                         }
                         else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                         {
                             pruebaRelay.Write(true);
                             pruebaRelay2.Write(false);
-                            Debug.Print("SECADOR");
+                            //Debug.Print("SECADOR");
                         }else                                                   // APAGAMOS TODO
                         {
                             pruebaRelay.Write(false);
                             pruebaRelay2.Write(false);
-                            Debug.Print("OFF - DENTRO DEL RANGO");
+                            //Debug.Print("OFF - DENTRO DEL RANGO");
                         }
                        
 
