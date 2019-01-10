@@ -51,7 +51,7 @@ namespace NetduinoController
 
 
             // Start a new thread to read the temperature
-            new Thread(readTemp).Start();
+            
 
             // Thread showing display info
             //new Thread(displayTemp).Start();
@@ -76,10 +76,11 @@ namespace NetduinoController
             // Blink the led to indicate we're in competition
             new Thread(blink).Start();
 
-           
+            // Inicializamos la patalla lcd
+            new Thread(readTemp).Start();
+
             // TODO: Do the competition stuff here
             while (Datos.competi) {
-
                 // Wait for the refresh rate
                 Thread.Sleep(Datos.refresh);
             }
@@ -95,9 +96,15 @@ namespace NetduinoController
             Datos.timeLeft = Datos.roundTime;
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
+                
                 Thread.Sleep(1000);
             }
             Datos.competi = false;
+        }
+
+        private static void puntuacion()
+        {
+            
         }
 
         /// <summary>
@@ -162,7 +169,7 @@ namespace NetduinoController
             
 
             int tiempo = 0;
-            Datos.timeInRangeTemp = 0;
+            
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
                 /*valor = a0.Read();
@@ -194,31 +201,36 @@ namespace NetduinoController
 
                         tiempo++;
                         Datos.tempAct = temperature / 16.0;
+
+                        Debug.Print("Temperatura máxima: " + Datos.tempMax + " Temperatura minima: " + Datos.tempMin);
+
                         
-
-
-                        if (Datos.tempAct <= Datos.tempMax && Datos.tempAct >= Datos.tempMin && Datos.timeLeft != 0 )
-                        {
-                            Datos.timeInRangeTemp++;
-                        }
                         if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
                         {
                             pruebaRelay.Write(false); 
                             pruebaRelay2.Write(true);
-                            //Debug.Print("VENTILADOR");
-                            
+                            Debug.Print("VENTILADOR");
                         }
                         else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                         {
                             pruebaRelay.Write(true);
                             pruebaRelay2.Write(false);
-                            //Debug.Print("SECADOR");
+                            Debug.Print("SECADOR");
                         }else                                                   // APAGAMOS TODO
                         {
                             pruebaRelay.Write(false);
                             pruebaRelay2.Write(false);
-                            //Debug.Print("OFF - DENTRO DEL RANGO");
+                            Debug.Print("OFF - DENTRO DEL RANGO");
+                            Datos.timeInRangeTemp++;
                         }
+                        if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
+                        {
+                            Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
+                            Datos.timeInRangeTemp++;
+                        } else
+                            Debug.Print("-------.NO ESTA DENTRO DEL RANGO");
+                       
+                        
 
 
                         //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);

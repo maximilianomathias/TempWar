@@ -214,6 +214,7 @@ namespace NetduinoController.Web
                             break;
                         }
                         int rounds = 0;
+                        Datos.timeInRangeTemp = 0;
                         while(rounds < Datos.rangos.Length-1)
                         {
                             // Insertamos los parametros de cada partida
@@ -226,9 +227,16 @@ namespace NetduinoController.Web
                             new Thread(Program.startRound).Start();
 
                             // Wait for the round to finish
+
                             while (Datos.competi)
                             {
-                                Thread.Sleep(1000);
+                                
+                                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
+                                {
+                                    Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
+                                    Datos.timeInRangeTemp++;
+                                }
+                                Thread.Sleep(800);
                             }
                             ready = false;
 
