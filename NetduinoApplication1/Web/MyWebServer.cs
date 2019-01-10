@@ -45,6 +45,7 @@ namespace NetduinoController.Web
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
             server.AllowedCommands.Add(new WebCommand("time", 0));
+            server.AllowedCommands.Add(new WebCommand("setround", 0));
             
         }
 
@@ -66,6 +67,7 @@ namespace NetduinoController.Web
 
             switch (e.Command.CommandString)
             {
+
                 case "index":
                     {
                         // If there is a pending message, save it to show in the page and then resets it
@@ -80,8 +82,16 @@ namespace NetduinoController.Web
                         
                         break;
                     }
+                case "setround":
+                    {
+                        Debug.Print("------->Seteando los parametros para la ronda");
+                        msgAux = "Se ha introducido una nueva ronda.";
+                        e.ReturnString = redirect("index");
+                        break;
+                    }
                 case "setparams":
                     {
+                        Debug.Print("----> dentro de SET PARAMS");
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
@@ -255,18 +265,24 @@ namespace NetduinoController.Web
 
                             "<script type='text/javascript'>" +
                             "var i = 1;" +
-                            "var dataInput = new StringBuilder();"+
-                                 //funciones
+                            "var dataInput; "+
+                                 
+                                "function set(){"+
+                                    "window.location = 'http://" + IP + "/setround';" +
+                                "}" +
 
-                                "function join_names() {"+
+                                "function join_names() {"+ //Join_names
+
                                     "var tempMin = document.getElementsByName('tempMin')[0].value;" +
                                     "var tempMax = document.getElementsByName('tempMax')[0].value;" +
                                     "var time = document.getElementsByName('time')[0];" +
                                     "document.getElementById('joint').value = tempMin+'-'+ tempMax +'-'+time.value+'/';" +
-                                    "alert(document.getElementById('joint').value);"+
+                                    "var roundParameters = document.getElementById('joint')[0].value;"+ 
+                                    //"alert(document.getElementById('joint').value);"+
+                                    "window.location = 'http://" + IP + "/setround';" +
                                 "}" +
                                                 
-                                "function save(){" +
+                                "function save(){" + // save()
 
                                     "var tempMax = document.forms['params']['tempMax'].value;" +
                                     "var tempMin = document.forms['params']['tempMin'].value;" +
@@ -275,13 +291,32 @@ namespace NetduinoController.Web
                                     "var time = document.forms['params']['time'].value;" +
                                     "var pass = document.forms['params']['pass'].value;" +
 
-                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;}" +
-                                    "function start(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/start/' + pass;}" +
-                                    "function time(){window.location = 'http://" + IP + "/time';}" +
-                                    "function temp(){window.location = 'http://" + IP + "/temp';}" +
-                                    "function coolerMode(){var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/coolermode/' + pass;}"+
+                                    //"window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;"+
+                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;" +
+                                "}" +
+
+                                "function start(){"+ // start()
+
+                                    "var pass = document.forms['params']['pass'].value;window.location = 'http://" + IP + "/start/' + pass;"+
+                                "}" +
+
+                                "function time(){"+ // time()
+
+                                    "window.location = 'http://" + IP + "/time';"+
+                                "}" +
+
+                                "function temp(){"+ // temp()
+
+                                    "window.location = 'http://" + IP + "/temp';"+
+                                "}" +
+
+                                "function coolerMode(){"+// coolerMode()
+
+                                    "var pass = document.forms['params']['pass'].value;"+
+                                    "window.location = 'http://" + IP + "/coolermode/' + pass;"+
+                                "}"+
                             
-                                " function crearRango(){" +
+                                "function crearRango(){" + // crearRango()
 
                                     "mNewObj = document.createElement('div');" +
                                     "mNewObj.id = 'BOX';" +
@@ -289,7 +324,7 @@ namespace NetduinoController.Web
                                     "mNewObj.innerHTML = 'Ronda ' + i + document.getElementById('myP').innerHTML;" +
                                     "document.getElementById('tid').appendChild(mNewObj);" +
 
-                                    "i++;}" +
+                                "i++;}" +
 
                             "</script>" +
                             // CSS
@@ -316,9 +351,10 @@ namespace NetduinoController.Web
                                         "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' id='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
                                         "<input type = 'hidden' id = 'joint'>"+
                                         
-                                        "<input type = 'submit' value = 'Set Round' onclick = 'join_names();' />" +
+                                        //"<input type = 'submit' value = 'Set Round' onclick = 'set();' />" +
+                                        "<a href='#' onclick='set()'>Set Round</a><br/>" +
 
-                                          "</div>" +
+                                   "</div>" +
 
                                     "<div id='tid'></div>" + // aqui metemos el nuero rango
                                     "<p>Contrase&ntilde;a <input name='pass' type='password'></input></p>" +
