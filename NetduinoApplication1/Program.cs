@@ -39,15 +39,15 @@ namespace NetduinoController
 
             
             // ************************************************definir los array de rangos 
-            TemperatureRange[] ranges = new TemperatureRange[3];
+            //TemperatureRange[] ranges = new TemperatureRange[3];
             bool configured;
 
-            ranges[0] = new TemperatureRange(12, 15, 5000);
-            ranges[1] = new TemperatureRange(22, 25, 5000);
-            ranges[2] = new TemperatureRange(12.5, 13, 2000);
+           // ranges[0] = new TemperatureRange(12, 15, 5000);
+           // ranges[1] = new TemperatureRange(22, 25, 5000);
+           // ranges[2] = new TemperatureRange(12.5, 13, 2000);
             string errorMessage = null;
             // el segundo argumento tiene que ser la suma de los arrays ^^^^
-            configured =  timecontroller.Configure(ranges, 100000, 500, out errorMessage);
+            configured =  timecontroller.Configure(Datos.rangos, 100000, 500, out errorMessage);
 
 
             // Start a new thread to read the temperature
@@ -68,7 +68,7 @@ namespace NetduinoController
         /// Starts one round of the competition.
         /// </summary>
         public static void startRound() {
-            Datos.timeInRangeTemp = 0;
+            
 
             // Start a timer thread for the round
             new Thread(timer).Start();
@@ -76,17 +76,9 @@ namespace NetduinoController
             // Blink the led to indicate we're in competition
             new Thread(blink).Start();
 
+           
             // TODO: Do the competition stuff here
             while (Datos.competi) {
-
-                /**
-                 * 
-                 * TODO: Implement devices control logic here
-                 * 
-                 * */
-                // Print current temperature
-               //Debug.Print("temperatura actual:");
-               //Debug.Print(Datos.tempAct + "");
 
                 // Wait for the refresh rate
                 Thread.Sleep(Datos.refresh);
@@ -161,9 +153,7 @@ namespace NetduinoController
             var lcd = new Lcd(lcdProvider);
 
             lcd.Begin(16, 2);
-
-            lcd.SetCursorPosition(0, 0);
-            lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
+            
 
             Double rango = Datos.tempMax - Datos.tempMin;
             Double limiteSup = 0.35 * rango;
@@ -229,10 +219,12 @@ namespace NetduinoController
                             pruebaRelay2.Write(false);
                             //Debug.Print("OFF - DENTRO DEL RANGO");
                         }
-                       
+
 
                         //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
-                        
+
+                        lcd.SetCursorPosition(0, 0);
+                        lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
 
                         lcd.SetCursorPosition(13, 0);
                         lcd.Write(Datos.timeLeft.ToString());

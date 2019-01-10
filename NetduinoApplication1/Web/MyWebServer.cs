@@ -1,7 +1,7 @@
 using System;
 using Microsoft.SPOT;
 using System.Threading;
-
+using NETDuinoWar;
 
 namespace NetduinoController.Web
 {
@@ -40,7 +40,7 @@ namespace NetduinoController.Web
             // http://[server-ip]/start/pass
             // http://[server-ip]/coolermode/pass
             server.AllowedCommands.Add(new WebCommand("index", 0));
-            server.AllowedCommands.Add(new WebCommand("setparams", 6));
+            server.AllowedCommands.Add(new WebCommand("setparams", 3));
             server.AllowedCommands.Add(new WebCommand("start", 1));
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
@@ -93,6 +93,14 @@ namespace NetduinoController.Web
                             break;
                         }
 
+                        if (double.Parse(e.Command.Arguments[0].ToString()) > 30 || double.Parse(e.Command.Arguments[1].ToString()) < 12)
+                        {
+                            // Return feedback to web user.
+                            msgAux = "El rango de temperatura m&aacute;ximo es entre 30 y 12 grados C.";
+                            e.ReturnString = redirect("index");
+                            break;
+                        }
+
                         // Validate the data
                         if (e.Command.Arguments[0].ToString().Length == 0 ||
                             e.Command.Arguments[1].ToString().Length == 0 ||
@@ -106,17 +114,27 @@ namespace NetduinoController.Web
                         }
                         else
                         {
+                            // concatenamos los datos para guardarlos en la variable 'Datos.colaRonda'
+                            for(int a = 0; a<3; a++)
+                            {
+                                Datos.colaRonda += e.Command.Arguments[a].ToString();
+                                if (a == 2)
+                                    Datos.colaRonda += '/';
+                                else 
+                                    Datos.colaRonda += '-';
+                            }
+                            
                             Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
-                           
+                            Debug.Print("------> datos colaronda: " + Datos.colaRonda);
                         }
 
-                        msgAux = "Se ha introducido una nueva ronda.";
+                        msgAux = "Se ha introducido una nueva ronda. Click 'set ronda' para una nueva ronda o 'Guardar' si ya estas preparado";
                         e.ReturnString = redirect("index");
                         break;
                     }
                 case "setparams":
                     {
-                        Debug.Print("----> dentro de SET PARAMS");
+                        
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
@@ -138,33 +156,34 @@ namespace NetduinoController.Web
 
                         // Validate the data
                         if (e.Command.Arguments[1].ToString().Length == 0 || 
-                            e.Command.Arguments[2].ToString().Length == 0 || 
-                            e.Command.Arguments[3].ToString().Length == 0 || 
-                            e.Command.Arguments[4].ToString().Length == 0 || 
-                            e.Command.Arguments[5].ToString().Length == 0)
+                            e.Command.Arguments[2].ToString().Length == 0 )
                         {
                             // Return feedback to web user.
                             msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
                             e.ReturnString = redirect("index");
                             break;
                         }
-                        
-                        if (double.Parse(e.Command.Arguments[1].ToString()) > 30 || double.Parse(e.Command.Arguments[2].ToString()) < 12)
+
+                        // Guardamos los diferentes rangos en un array de strings separandolos por el '/'
+                        String[] rangos = Datos.colaRonda.Split('/');
+                        // Reservamos memoria para los rangos 
+                        Datos.rangos = new TemperatureRange[rangos.Length];
+                        Debug.Print("----->Numero de rangos: " + rangos.Length);
+                        for (int i = 0; i < (rangos.Length-1); i++)
                         {
-                            // Return feedback to web user.
-                            msgAux = "El rango de temperatura m&aacute;ximo es entre 30 y 12 grados C.";
-                            e.ReturnString = redirect("index");
-                            break;
+                            String[] parametros= rangos[i].Split('-');
+                            // TemperatureRange(double Max, double Min, int RoundTime);
+                            Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[0]), double.Parse(parametros[1]), int.Parse(parametros[2]));
                         }
 
-                  
+
 
                         // Change the params
-                        Datos.tempMax = double.Parse(e.Command.Arguments[1].ToString());
-                        Datos.tempMin = double.Parse(e.Command.Arguments[2].ToString());
-                        Datos.displayRefresh = int.Parse(e.Command.Arguments[3].ToString());
-                        Datos.refresh = int.Parse(e.Command.Arguments[4].ToString());
-                        Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
+                        //Datos.tempMax = double.Parse(e.Command.Arguments[1].ToString());
+                        //Datos.tempMin = double.Parse(e.Command.Arguments[2].ToString());
+                        Datos.displayRefresh = int.Parse(e.Command.Arguments[1].ToString());
+                        Datos.refresh = int.Parse(e.Command.Arguments[2].ToString());
+                        //Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
 
                         
 
@@ -194,30 +213,41 @@ namespace NetduinoController.Web
                             e.ReturnString = redirect("index");
                             break;
                         }
-
-                        // Start the round
-/*IMPORTANTE ---->*/    new Thread(Program.startRound).Start();
-
-                        // Wait for the round to finish
-                        while (Datos.competi)
+                        int rounds = 0;
+                        while(rounds < Datos.rangos.Length-1)
                         {
-                            Thread.Sleep(1000);
-                        }
-                        ready = false;
+                            // Insertamos los parametros de cada partida
+                            Datos.tempMax = Datos.rangos[rounds].MaxTemp;
+                            Datos.tempMin = Datos.rangos[rounds].MinTemp;
+                            Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
 
-                        // Return feedback to web user.
-                        if (Datos.error)
-                        {
-                            Datos.error = false;
-                            msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
-                            e.ReturnString = redirect("index");
+                            // Start the round
+        /*IMPORTANTE ---->*/         
+                            new Thread(Program.startRound).Start();
+
+                            // Wait for the round to finish
+                            while (Datos.competi)
+                            {
+                                Thread.Sleep(1000);
+                            }
+                            ready = false;
+
+                            // Return feedback to web user.
+                            if (Datos.error)
+                            {
+                                Datos.error = false;
+                                msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
+                                e.ReturnString = redirect("index");
+                            }
+                            else
+                            {
+                                /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
+                                msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
+                                e.ReturnString = redirect("index");
+                            }
+                            rounds++;
                         }
-                        else
-                        {
-                            /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
-                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
-                            e.ReturnString = redirect("index");
-                        }
+
                         break;
                     }
                 case "coolermode":
@@ -321,7 +351,7 @@ namespace NetduinoController.Web
                                     "var pass = document.forms['params']['pass'].value;" +
 
                                     //"window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;"+
-                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;" +
+                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/'+ displayRefresh + '/' + refresh;" +
                                 "}" +
 
                                 "function start(){"+ // start()
