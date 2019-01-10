@@ -45,7 +45,7 @@ namespace NetduinoController.Web
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
             server.AllowedCommands.Add(new WebCommand("time", 0));
-            server.AllowedCommands.Add(new WebCommand("setround", 0));
+            server.AllowedCommands.Add(new WebCommand("setround", 3));
             
         }
 
@@ -85,6 +85,31 @@ namespace NetduinoController.Web
                 case "setround":
                     {
                         Debug.Print("------->Seteando los parametros para la ronda");
+                        if (ready)
+                        {
+                            // Return feedback to web user.
+                            msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
+                            e.ReturnString = redirect("index");
+                            break;
+                        }
+
+                        // Validate the data
+                        if (e.Command.Arguments[0].ToString().Length == 0 ||
+                            e.Command.Arguments[1].ToString().Length == 0 ||
+                            e.Command.Arguments[2].ToString().Length == 0 )
+                        {
+                            // Return feedback to web user.
+                            
+                            msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
+                            e.ReturnString = redirect("index");
+                            break;
+                        }
+                        else
+                        {
+                            Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
+                           
+                        }
+
                         msgAux = "Se ha introducido una nueva ronda.";
                         e.ReturnString = redirect("index");
                         break;
@@ -100,6 +125,7 @@ namespace NetduinoController.Web
                             e.ReturnString = redirect("index");
                             break;
                         }
+
 
                         // Check we're not in cometition
                         if (ready)
@@ -268,7 +294,10 @@ namespace NetduinoController.Web
                             "var dataInput; "+
                                  
                                 "function set(){"+
-                                    "window.location = 'http://" + IP + "/setround';" +
+                                    "var tempMax = document.forms['params']['tempMax'].value;" +
+                                    "var tempMin = document.forms['params']['tempMin'].value;" +
+                                    "var time = document.forms['params']['time'].value;" +
+                                    "window.location = 'http://" + IP + "/setround/'+ tempMax +'/'+ tempMin +'/'+ time;" +
                                 "}" +
 
                                 "function join_names() {"+ //Join_names
