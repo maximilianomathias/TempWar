@@ -204,7 +204,7 @@ namespace NetduinoController
 
                         Debug.Print("Temperatura máxima: " + Datos.tempMax + " Temperatura minima: " + Datos.tempMin);
 
-                        
+                        // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
                         if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
                         {
                             pruebaRelay.Write(false); 
@@ -228,8 +228,7 @@ namespace NetduinoController
                             Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
                             Datos.timeInRangeTemp++;
                         } else
-                            Debug.Print("-------.NO ESTA DENTRO DEL RANGO");
-                       
+                           
                         
 
 
