@@ -230,6 +230,17 @@ namespace NetduinoController
                                 Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
                                 Datos.timeInRangeTemp++;
                             }
+                        /*    if (Datos.tempAct >= Datos.tempMax && Datos.tempAct <= Datos.tempMin)
+                            {
+                               
+                                    if (Datos.timeLeft != 0)
+                                    {
+                                        Datos.timeInRangeTemp++;
+                                        Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
+                                    }
+                                
+                                
+                            }*/
                             
 
                                 //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);

@@ -173,7 +173,7 @@ namespace NetduinoController.Web
                         {
                             String[] parametros= rangos[i].Split('-');
                             // TemperatureRange(double Max, double Min, int RoundTime);
-                            Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[0]), double.Parse(parametros[1]), int.Parse(parametros[2]));
+                            Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
 
 
@@ -231,12 +231,8 @@ namespace NetduinoController.Web
                             while (Datos.competi)
                             {
                                 
-                                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
-                                {
-                                    Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
-                                    Datos.timeInRangeTemp++;
-                                }
-                                Thread.Sleep(800);
+                                
+                                Thread.Sleep(1000);
                             }
                             ready = false;
 
