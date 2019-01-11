@@ -175,21 +175,41 @@ namespace NetduinoController.Web
                             // TemperatureRange(double Max, double Min, int RoundTime);
                             Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
-                            double temporal;
+                            double temporal, temporalMax;
+                            int temporalTem;
 
-                            for (int i = 0; i < rangos.Length; i++)
+                            for (int i = 0; i < rangos.Length - 1; i++)
                             {
-                                for (int j = 0; j < rangos.Length - 1; j++)
+                                for (int j = 0; j <= (rangos.Length - 2); j++)
                                 {
-                                    if (Datos.rangos[j].MinTemp < Datos.rangos[j + 1].MinTemp)
-                                    { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
-                                        temporal = Datos.rangos[j].MinTemp;
-                                        Datos.rangos[j].MinTemp = Datos.rangos[j+1].MinTemp;
-                                        Datos.rangos[j+1].MinTemp = temporal;
+                                    Debug.Print(j.ToString());
+                                    if ((j + 1) <= (rangos.Length - 2))
+                                    {
+                                        Debug.Print("Estoy aqui" + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
+                                        if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
+                                        { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
+                                            Debug.Print("Dentro");
+                                            temporal = Datos.rangos[j].MinTemp;
+                                            Datos.rangos[j].MinTemp = Datos.rangos[j + 1].MinTemp;
+                                            Datos.rangos[j + 1].MinTemp = temporal;
+                                            Debug.Print("Cambiado: " + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
+
+                                            temporalMax = Datos.rangos[j].MaxTemp;
+                                            Datos.rangos[j].MaxTemp = Datos.rangos[j + 1].MaxTemp;
+                                            Datos.rangos[j + 1].MaxTemp = temporalMax;
+                                            Debug.Print("Cambiado: " + Datos.rangos[j].MaxTemp + " - " + Datos.rangos[j + 1].MaxTemp);
+
+                                            temporalTem = Datos.rangos[j].RangeTimeInMilliseconds;
+                                            Datos.rangos[j].RangeTimeInMilliseconds = Datos.rangos[j + 1].RangeTimeInMilliseconds;
+                                            Datos.rangos[j + 1].RangeTimeInMilliseconds = temporalTem;
+                                            Debug.Print("Cambiado: " + Datos.rangos[j].RangeTimeInMilliseconds + " - " + Datos.rangos[j + 1].RangeTimeInMilliseconds);
+                                    }
+                                   
                                     }
                                 }
                             }
-                        
+                        Debug.Print(Datos.rangos[0].MinTemp + "-" + Datos.rangos[0].MaxTemp);
+
 
 
                         // Change the params
