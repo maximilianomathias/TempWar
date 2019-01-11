@@ -27,7 +27,8 @@ namespace NetduinoController
            // byte[] currentConfig = ReadTMP102Configuration(sensor);
             // Start the WebServer
             server.Start();
-
+            // Inicializamos la patalla lcd
+            new Thread(readTemp).Start();
             // ************************************************start the Time Controller
             TimeController timecontroller = new TimeController();
 
@@ -76,8 +77,7 @@ namespace NetduinoController
             // Blink the led to indicate we're in competition
             new Thread(blink).Start();
 
-            // Inicializamos la patalla lcd
-            new Thread(readTemp).Start();
+            
 
             // TODO: Do the competition stuff here
             while (Datos.competi) {
@@ -202,59 +202,74 @@ namespace NetduinoController
                         tiempo++;
                         Datos.tempAct = temperature / 16.0;
 
-                        Debug.Print("Temperatura máxima: " + Datos.tempMax + " Temperatura minima: " + Datos.tempMin);
-
-                        // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
-                        if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
+                        //Debug.Print("Temperatura máxima: " + Datos.tempMax + " Temperatura minima: " + Datos.tempMin);
+                        if (Datos.competi)
                         {
-                            pruebaRelay.Write(false); 
-                            pruebaRelay2.Write(true);
-                            Debug.Print("VENTILADOR");
+                            // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
+                            if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
+                            {
+                                pruebaRelay.Write(false);
+                                pruebaRelay2.Write(true);
+                                Debug.Print("VENTILADOR");
+                            }
+                            else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
+                            {
+                                pruebaRelay.Write(true);
+                                pruebaRelay2.Write(false);
+                                Debug.Print("SECADOR");
+                            }
+                            else                                                   // APAGAMOS TODO
+                            {
+                                pruebaRelay.Write(false);
+                                pruebaRelay2.Write(false);
+                                Debug.Print("OFF - DENTRO DEL RANGO");
+                                Datos.timeInRangeTemp++;
+                            }
+                            if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
+                            {
+                                Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
+                                Datos.timeInRangeTemp++;
+                            }
+                            
+
+                                //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
+
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
+
+                            lcd.SetCursorPosition(13, 0);
+                            lcd.Write(Datos.timeLeft.ToString());
+
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write(Datos.tempAct.ToString("N1") + "C");
+
+                            lcd.SetCursorPosition(13, 1);
+                            lcd.Write(Datos.timeInRangeTemp.ToString());
+
+                            Thread.Sleep(1000);
+                            lcd.SetCursorPosition(12, 0);
+                            lcd.Write("    ");
+
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write("                ");
+
                         }
-                        else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
+                        else
                         {
-                            pruebaRelay.Write(true);
-                            pruebaRelay2.Write(false);
-                            Debug.Print("SECADOR");
-                        }else                                                   // APAGAMOS TODO
-                        {
-                            pruebaRelay.Write(false);
-                            pruebaRelay2.Write(false);
-                            Debug.Print("OFF - DENTRO DEL RANGO");
-                            Datos.timeInRangeTemp++;
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Temp War Grupo 1");
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write("Temp: "+Datos.tempAct.ToString("N1") + "C");
+                            Thread.Sleep(1000);
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write("                ");
+
                         }
-                        if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
-                        {
-                            Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
-                            Datos.timeInRangeTemp++;
-                        } else
-                           
-                        
+                      
 
 
-                        //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
 
-                        lcd.SetCursorPosition(0, 0);
-                        lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
-
-                        lcd.SetCursorPosition(13, 0);
-                        lcd.Write(Datos.timeLeft.ToString());
-
-                        lcd.SetCursorPosition(0, 1);                
-                        lcd.Write(Datos.tempAct.ToString("N1") + "C");
-
-                        lcd.SetCursorPosition(13,1);
-                        lcd.Write(Datos.timeInRangeTemp.ToString());
-
-                        Thread.Sleep(1000);
-
-                        lcd.SetCursorPosition(12, 0);
-                        lcd.Write("    ");
-
-                        lcd.SetCursorPosition(0, 1);
-                        lcd.Write("                ");
-                        
-                        //lcd.Clear();
+                        lcd.Clear();
                         // lcd.ClearDisplay();
                         //lcd.Show("Temp:" + Datos.tempAct + " C", 200, true);
                     }
