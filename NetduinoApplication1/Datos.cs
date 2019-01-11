@@ -13,6 +13,8 @@ namespace NetduinoController
         public static String colaRonda = "";
 
         public static TemperatureRange[] rangos; // aqui guardamos las diferentes rondas. 
+        public static TemperatureRange[] rangosFinal; // 
+
 
         public static bool competi = false;
         public static bool error = false;

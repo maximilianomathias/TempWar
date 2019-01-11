@@ -175,7 +175,21 @@ namespace NetduinoController.Web
                             // TemperatureRange(double Max, double Min, int RoundTime);
                             Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
+                            double temporal;
 
+                            for (int i = 0; i < rangos.Length; i++)
+                            {
+                                for (int j = 0; j < rangos.Length - 1; j++)
+                                {
+                                    if (Datos.rangos[j].MinTemp < Datos.rangos[j + 1].MinTemp)
+                                    { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
+                                        temporal = Datos.rangos[j].MinTemp;
+                                        Datos.rangos[j].MinTemp = Datos.rangos[j+1].MinTemp;
+                                        Datos.rangos[j+1].MinTemp = temporal;
+                                    }
+                                }
+                            }
+                        
 
 
                         // Change the params
