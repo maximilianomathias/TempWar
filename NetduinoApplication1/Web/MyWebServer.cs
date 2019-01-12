@@ -126,6 +126,7 @@ namespace NetduinoController.Web
                             
                             Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
                             Debug.Print("------> datos colaronda: " + Datos.colaRonda);
+                            Debug.Print("------> tiempo total: " + Datos.timeLeft);
                         }
 
                         msgAux = "Se ha introducido una nueva ronda. Click 'set ronda' para una nueva ronda o 'Guardar' si ya estas preparado";
