@@ -17,7 +17,8 @@ namespace NetduinoController
     public class Program {
 
         private static OutputPort pruebaRelay = new OutputPort(Pins.GPIO_PIN_D13, false);
-        private static OutputPort pruebaRelay2 = new OutputPort(Pins.GPIO_PIN_D12, false); 
+        private static OutputPort pruebaRelay2 = new OutputPort(Pins.GPIO_PIN_D12, false);
+        private static OutputPort pruebarelay3 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         public static void Main() {
             // Create a WebServer
@@ -29,6 +30,7 @@ namespace NetduinoController
             server.Start();
             // Inicializamos la patalla lcd
             new Thread(readTemp).Start();
+            Debug.Print(Datos.timeLeft.ToString());
             // ************************************************start the Time Controller
             TimeController timecontroller = new TimeController();
 
@@ -93,7 +95,7 @@ namespace NetduinoController
         /// </summary>
         private static void timer() {
             Datos.competi = true;
-            Datos.timeLeft = Datos.roundTime;
+            //Datos.timeLeft = Datos.roundTime; ---------------------------------------------------------------->
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
                 
@@ -210,20 +212,23 @@ namespace NetduinoController
                             {
                                 pruebaRelay.Write(false);
                                 pruebaRelay2.Write(true);
+                                pruebarelay3.Write(true);
                                 Debug.Print("VENTILADOR");
                             }
                             else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                             {
                                 pruebaRelay.Write(true);
                                 pruebaRelay2.Write(false);
+                                pruebarelay3.Write(false);
                                 Debug.Print("SECADOR");
                             }
                             else                                                   // APAGAMOS TODO
                             {
                                 pruebaRelay.Write(false);
                                 pruebaRelay2.Write(false);
+                                pruebarelay3.Write(false);
                                 Debug.Print("OFF - DENTRO DEL RANGO");
-                                Datos.timeInRangeTemp++;
+                                //Datos.timeInRangeTemp++;
                             }
                             if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
                             {

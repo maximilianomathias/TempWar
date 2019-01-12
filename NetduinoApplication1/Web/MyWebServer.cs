@@ -40,7 +40,7 @@ namespace NetduinoController.Web
             // http://[server-ip]/start/pass
             // http://[server-ip]/coolermode/pass
             server.AllowedCommands.Add(new WebCommand("index", 0));
-            server.AllowedCommands.Add(new WebCommand("setparams", 3));
+            server.AllowedCommands.Add(new WebCommand("setparams", 4));
             server.AllowedCommands.Add(new WebCommand("start", 1));
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
@@ -156,7 +156,8 @@ namespace NetduinoController.Web
 
                         // Validate the data
                         if (e.Command.Arguments[1].ToString().Length == 0 || 
-                            e.Command.Arguments[2].ToString().Length == 0 )
+                            e.Command.Arguments[2].ToString().Length == 0 ||
+                            e.Command.Arguments[3].ToString().Length == 0)
                         {
                             // Return feedback to web user.
                             msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
@@ -217,6 +218,7 @@ namespace NetduinoController.Web
                         //Datos.tempMin = double.Parse(e.Command.Arguments[2].ToString());
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[1].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[2].ToString());
+                        Datos.timeLeft = int.Parse(e.Command.Arguments[3].ToString());
                         //Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
 
                         
@@ -387,9 +389,10 @@ namespace NetduinoController.Web
                                     "var refresh = document.forms['params']['refresh'].value;" +
                                     "var time = document.forms['params']['time'].value;" +
                                     "var pass = document.forms['params']['pass'].value;" +
+                                    "var timeGlobal = document.forms['params']['tiempoGlobal'].value;" +
 
                                     //"window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;"+
-                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/'+ displayRefresh + '/' + refresh;" +
+                                    "window.location = 'http://" + IP + "/setparams/' + pass + '/'+ displayRefresh + '/' + refresh + '/' + timeGlobal;" +
                                 "}" +
 
                                 "function start(){"+ // start()
@@ -438,8 +441,8 @@ namespace NetduinoController.Web
 
                                         "<p>Cadencia Refresco <b>(ms)</b> <input name='displayRefresh' type='number' value='" + Datos.displayRefresh + "' " + disabled + "></input></p>" +
                                         "<p>Cadencia Interna <b>(ms)</b> <input name='refresh' type='number' value='" + Datos.refresh + "' " + disabled + "></input></p>" +
-
-                                    "</div>"+
+                                        "<p>Tiempo global <b>(ms)</b> <input name='tiempoGlobal' type='number' value='" + Datos.timeLeft + "' " + disabled + "></input></p>" +
+                                    "</div>" +
 
                                     "<div id = 'myP'>" + // este el el div que se crea cuando creamos un nuevo rango
 
