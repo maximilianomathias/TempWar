@@ -21,15 +21,16 @@ namespace NetduinoController
         private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
 
-       
+        
         public static void Main() {
             // Create a WebServer
             MyWebServer server = new MyWebServer();
             I2CDevice sensor = new I2CDevice(new I2CDevice.Configuration(0x48, 50));
            
             server.Start();
-            
-            new Thread(readTemp).Start();
+
+            Thread LecturaTemperatura = new Thread(readTemp);
+            LecturaTemperatura.Start();
             
             TimeController timecontroller = new TimeController();
 
@@ -39,7 +40,7 @@ namespace NetduinoController
             configured =  timecontroller.Configure(Datos.rangos, 100000, 500, out errorMessage);
             while (true) {
                 Debug.Print("Netduino funcionando...");
-                Thread.Sleep(10000);
+                Thread.Sleep(10000);     
             }
             
         }
@@ -54,12 +55,12 @@ namespace NetduinoController
             Thread temporizador = new Thread(timer); // Empezar el temporizador de la nueva ronda
             Thread parpadeo = new Thread(blink);// Hace que el led parpadee cuando estemos en competicion
 
-            temporizador.Start();
+            temporizador.Start(); // cuando arranco el temporizador---> Datos.competi = true;
             parpadeo.Start();
 
             while (Datos.competi)
             {
-                Debug.Print("----------DENTRO DEL WHILE Program.78---------");
+                Debug.Print("----------DENTRO DEL WHILE Program.63---------");
                 if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) && (Datos.timeLeft!=0))
                 {
                     Datos.timeInRangeTemp++;
@@ -77,14 +78,13 @@ namespace NetduinoController
                 temporizador.Abort();
                 parpadeo.Abort();
             }
-            
         }
-
         /// <summary>
         /// Starts a timer that will indicate when the round finish
         /// </summary>
         private static void timer() {
             Datos.competi = true;
+            
             //Datos.timeLeft = Datos.roundTime; ----------------------------------------------------------------> esto estaba por defecto
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
@@ -92,6 +92,7 @@ namespace NetduinoController
             }
             Datos.finishBattle = true; 
             Datos.competi = false;
+            
         }
 
         /// <summary>
@@ -137,7 +138,7 @@ namespace NetduinoController
             var lcd = new Lcd(lcdProvider);
 
             lcd.Begin(16, 2);
-
+            off(); // apagamos todos los compomentes externos.
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
 
@@ -161,10 +162,12 @@ namespace NetduinoController
                         ushort temperature = (byte)_oneWire.ReadByte();
                         temperature |= (ushort)(_oneWire.ReadByte() << 8); // MSB
                         Datos.tempAct = temperature / 16.0;
+                        
 
                        
                         if (Datos.competi && !Datos.finishBattle)
                         {
+                            Debug.Print("------------------------------DENTRO DE PROGRAM.170-------------------");
                             // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
                             if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
                             {
@@ -214,17 +217,18 @@ namespace NetduinoController
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("total: " + Datos.timeInRangeTemp+" seg.");
-                            off();
-                            Thread.Sleep(Datos.displayRefresh);
+                            Thread.Sleep(20000);
+                            
                         }
                         else
                         {
+                            Debug.Print("-------->Escribiendo modo offline");
                             lcd.Clear();
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
-                            off();
+                            
                             Thread.Sleep(1000);
                         }
                     }

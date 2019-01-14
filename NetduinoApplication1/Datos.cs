@@ -16,7 +16,6 @@ namespace NetduinoController
         public static TemperatureRange[] rangos; // aqui guardamos las diferentes rondas. 
         public static TemperatureRange[] rangosFinal; // 
 
-        
         public static bool competi = false;
         public static bool error = false;
         public static bool finishBattle = false;
