@@ -26,30 +26,22 @@ namespace NetduinoController
             // Create a WebServer
             MyWebServer server = new MyWebServer();
             I2CDevice sensor = new I2CDevice(new I2CDevice.Configuration(0x48, 50));
-
+           
             server.Start();
-  
+            
             new Thread(readTemp).Start();
             
             TimeController timecontroller = new TimeController();
+
             bool configured;
             string errorMessage = null;
             // el segundo argumento tiene que ser la suma de los arrays ^^^^
             configured =  timecontroller.Configure(Datos.rangos, 100000, 500, out errorMessage);
-
-
-            // Start a new thread to read the temperature
-            
-
-            // Thread showing display info
-            //new Thread(displayTemp).Start();
-
-            // Make sure Netduino keeps running.
             while (true) {
-                Debug.Print("Netduino still running...");
+                Debug.Print("Netduino funcionando...");
                 Thread.Sleep(10000);
             }
-
+            
         }
 
         /// <summary>
@@ -75,7 +67,7 @@ namespace NetduinoController
                     Debug.Print("--->tiempo restante para este rango: " + Datos.roundTimeAux);
                     Debug.Print(" DENTRO DEL RANGO");
                 }
-                // Wait for the refresh rate
+                // simulamos la espera de un segundo
                 Thread.Sleep(1000);
             }
 
@@ -93,15 +85,13 @@ namespace NetduinoController
         /// </summary>
         private static void timer() {
             Datos.competi = true;
-            //Datos.timeLeft = Datos.roundTime; ---------------------------------------------------------------->
+            //Datos.timeLeft = Datos.roundTime; ----------------------------------------------------------------> esto estaba por defecto
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
                 Thread.Sleep(1000);
             }
-            Datos.finishBattle = true;
+            Datos.finishBattle = true; 
             Datos.competi = false;
-            
-            
         }
 
         /// <summary>
@@ -114,7 +104,9 @@ namespace NetduinoController
             }
             led.Write(false);
         }
-
+        /// <summary>
+        /// Esta funcion es para pagar todos los controladores
+        /// </summary>
         private static void off()
         {
             Secador.Write(false);
@@ -179,14 +171,12 @@ namespace NetduinoController
                                 Secador.Write(false);
                                 Ventilador1.Write(true);
                                 Ventilador2.Write(true);
-                                //Debug.Print("VENTILADOR");
                             }
                             else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                             {
                                 Secador.Write(true);
                                 Ventilador1.Write(false);
                                 Ventilador2.Write(false);
-                                //Debug.Print("SECADOR");
                             }
                             else                                                   // APAGAMOS TODO
                             {
@@ -212,9 +202,9 @@ namespace NetduinoController
                             if (Datos.roundTimeAux == 0)
                             {
                                 Datos.competi = false;
+                                off();
                                 Debug.Print("-------->Se ha acabado el rountTime de esta ronda");
                             }
-
 
                         }
                         else if (Datos.finishBattle)
@@ -226,7 +216,6 @@ namespace NetduinoController
                             lcd.Write("total: " + Datos.timeInRangeTemp+" seg.");
                             off();
                             Thread.Sleep(Datos.displayRefresh);
-                           
                         }
                         else
                         {
@@ -236,9 +225,8 @@ namespace NetduinoController
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
                             off();
-                            Thread.Sleep(Datos.displayRefresh);
+                            Thread.Sleep(1000);
                         }
-
                     }
                     else
                     {
@@ -251,7 +239,6 @@ namespace NetduinoController
                 {
                     Debug.Print("ReadTemperatureToConsole " + ex.Message);
                 }
-
             }
         }
     } // Program
