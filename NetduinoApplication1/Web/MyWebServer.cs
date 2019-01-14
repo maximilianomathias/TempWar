@@ -45,7 +45,7 @@ namespace NetduinoController.Web
             server.AllowedCommands.Add(new WebCommand("coolermode", 1));
             server.AllowedCommands.Add(new WebCommand("temp", 0));
             server.AllowedCommands.Add(new WebCommand("time", 0));
-            server.AllowedCommands.Add(new WebCommand("setround", 3));
+            server.AllowedCommands.Add(new WebCommand("setround", 4));
             
         }
 
@@ -87,45 +87,43 @@ namespace NetduinoController.Web
                         Debug.Print("------->Seteando los parametros para la ronda");
                         if (ready)
                         {
-                            // Return feedback to web user.
                             msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
                             e.ReturnString = redirect("index");
                             break;
                         }
+                        // Si el tiempo global introducido es diferente al que ya teniamos previamente guardado, lo cambiamos. 
+                        if ((int.Parse(e.Command.Arguments[3].ToString())) != Datos.timeLeft)
+                            Datos.timeLeft = int.Parse(e.Command.Arguments[3].ToString());
 
                         if (double.Parse(e.Command.Arguments[0].ToString()) > 30 || double.Parse(e.Command.Arguments[1].ToString()) < 12)
                         {
-                            // Return feedback to web user.
                             msgAux = "El rango de temperatura m&aacute;ximo es entre 30 y 12 grados C.";
                             e.ReturnString = redirect("index");
                             break;
                         }
-
                         // Validate the data
                         if (e.Command.Arguments[0].ToString().Length == 0 ||
                             e.Command.Arguments[1].ToString().Length == 0 ||
                             e.Command.Arguments[2].ToString().Length == 0 )
                         {
-                            // Return feedback to web user.
-                            
                             msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
                             e.ReturnString = redirect("index");
                             break;
                         }
                         else
                         {
-                            // concatenamos los datos para guardarlos en la variable 'Datos.colaRonda'
+                            // concatenamos los datos para guardarlos en la variable 'Datos.roundQueue'
                             for(int a = 0; a<3; a++)
                             {
-                                Datos.colaRonda += e.Command.Arguments[a].ToString();
+                                Datos.roundQueue += e.Command.Arguments[a].ToString();
                                 if (a == 2)
-                                    Datos.colaRonda += '/';
+                                    Datos.roundQueue += '/';
                                 else 
-                                    Datos.colaRonda += '-';
+                                    Datos.roundQueue += '-';
                             }
                             
                             Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
-                            Debug.Print("------> datos colaronda: " + Datos.colaRonda);
+                            Debug.Print("------> datos colaronda: " + Datos.roundQueue);
                             Debug.Print("------> tiempo total: " + Datos.timeLeft);
                         }
 
@@ -135,7 +133,12 @@ namespace NetduinoController.Web
                     }
                 case "setparams":
                     {
-                        
+                        if (!e.Command.Arguments[0].Equals(pass))
+                        {
+                            msgAux = "La constrase&ntilde;a es incorrecta.";
+                            e.ReturnString = redirect("index");
+                            break;
+                        }
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
@@ -167,10 +170,12 @@ namespace NetduinoController.Web
                         }
 
                         // Guardamos los diferentes rangos en un array de strings separandolos por el '/'
-                        String[] rangos = Datos.colaRonda.Split('/');
-                        // Reservamos memoria para los rangos 
+                        String[] rangos = Datos.roundQueue.Split('/');
+
+                        // Instanciamos lo nuevo objetos TemperatureRange
                         Datos.rangos = new TemperatureRange[rangos.Length];
                         Debug.Print("----->Numero de rangos: " + rangos.Length);
+
                         for (int i = 0; i < (rangos.Length-1); i++)
                         {
                             String[] parametros= rangos[i].Split('-');
@@ -259,16 +264,14 @@ namespace NetduinoController.Web
                             Datos.tempMin = Datos.rangos[rounds].MinTemp;
                             Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
 
-                            // Start the round
-        /*IMPORTANTE ---->*/         
+                            // Start the round         
                             new Thread(Program.startRound).Start();
 
                             // Wait for the round to finish
-
                             while (Datos.competi)
                             {
-                                
-                                
+                                int freemem = int.Parse(Debug.GC(true).ToString());
+                                Debug.Print("-------->Esta es la memoria disponible en la placa: "+freemem);
                                 Thread.Sleep(1000);
                             }
                             ready = false;
@@ -359,7 +362,6 @@ namespace NetduinoController.Web
             //Write the HTML page
             string html = "<!DOCTYPE html><html><head><title>Grupo 1 MDV</title>" +
 
-
                             "<script type='text/javascript'>" +
                             "var i = 1;" +
                             "var dataInput; "+
@@ -368,18 +370,8 @@ namespace NetduinoController.Web
                                     "var tempMax = document.forms['params']['tempMax'].value;" +
                                     "var tempMin = document.forms['params']['tempMin'].value;" +
                                     "var time = document.forms['params']['time'].value;" +
-                                    "window.location = 'http://" + IP + "/setround/'+ tempMax +'/'+ tempMin +'/'+ time;" +
-                                "}" +
-
-                                "function join_names() {"+ //Join_names
-
-                                    "var tempMin = document.getElementsByName('tempMin')[0].value;" +
-                                    "var tempMax = document.getElementsByName('tempMax')[0].value;" +
-                                    "var time = document.getElementsByName('time')[0];" +
-                                    "document.getElementById('joint').value = tempMin+'-'+ tempMax +'-'+time.value+'/';" +
-                                    "var roundParameters = document.getElementById('joint')[0].value;"+ 
-                                    //"alert(document.getElementById('joint').value);"+
-                                    "window.location = 'http://" + IP + "/setround';" +
+                                    "var globalTime = document.forms['params']['tiempoGlobal'].value;" +
+                                    "window.location = 'http://" + IP + "/setround/'+ tempMax +'/'+ tempMin +'/'+ time + '/' + globalTime;" +
                                 "}" +
                                                 
                                 "function save(){" + // save()
@@ -391,8 +383,6 @@ namespace NetduinoController.Web
                                     "var time = document.forms['params']['time'].value;" +
                                     "var pass = document.forms['params']['pass'].value;" +
                                     "var timeGlobal = document.forms['params']['tiempoGlobal'].value;" +
-
-                                    //"window.location = 'http://" + IP + "/setparams/' + pass + '/' + tempMax + '/' + tempMin + '/' + displayRefresh + '/' + refresh + '/' + time;"+
                                     "window.location = 'http://" + IP + "/setparams/' + pass + '/'+ displayRefresh + '/' + refresh + '/' + timeGlobal;" +
                                 "}" +
 

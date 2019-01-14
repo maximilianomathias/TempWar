@@ -16,9 +16,9 @@ namespace NetduinoController
 {
     public class Program {
 
-        private static OutputPort pruebaRelay = new OutputPort(Pins.GPIO_PIN_D13, false);
-        private static OutputPort pruebaRelay2 = new OutputPort(Pins.GPIO_PIN_D12, false);
-        private static OutputPort pruebarelay3 = new OutputPort(Pins.GPIO_PIN_D10, false); 
+        private static OutputPort Secador = new OutputPort(Pins.GPIO_PIN_D13, false);
+        private static OutputPort Ventilador1 = new OutputPort(Pins.GPIO_PIN_D12, false);
+        private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         public static void Main() {
             // Create a WebServer
@@ -73,14 +73,13 @@ namespace NetduinoController
         public static void startRound() {
             
 
-            // Start a timer thread for the round
+            // Empezar el temporizador de la nueva ronda
             new Thread(timer).Start();
 
-            // Blink the led to indicate we're in competition
+            // Hace que el led parpadee cuando estemos en competicion
             new Thread(blink).Start();
 
-            
-
+          
             // TODO: Do the competition stuff here
             while (Datos.competi) {
                 // Wait for the refresh rate
@@ -174,17 +173,7 @@ namespace NetduinoController
             
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
-                /*valor = a0.Read();
-                voltage = valor * 3.3 / 1024;
-                Datos.tempAct = (voltage - 0.5) * 100;
-                //Deberia primero imprimir la temperatura
-                Debug.Print("temp :" + Datos.tempAct);
-                //Debug.Print("temp :" + Datos.tempMax);
-                //Debug.Print("temp :" + Datos.tempMin);
-                //Debug.Print("Valor :"+valor);
-                // Sleep
-                Thread.Sleep(Datos.refresh);
-                */
+                
                 try
                 {
                     if (_oneWire.TouchReset() > 0)
@@ -210,23 +199,23 @@ namespace NetduinoController
                             // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
                             if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
                             {
-                                pruebaRelay.Write(false);
-                                pruebaRelay2.Write(true);
-                                pruebarelay3.Write(true);
+                                Secador.Write(false);
+                                Ventilador1.Write(true);
+                                Ventilador2.Write(true);
                                 Debug.Print("VENTILADOR");
                             }
                             else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                             {
-                                pruebaRelay.Write(true);
-                                pruebaRelay2.Write(false);
-                                pruebarelay3.Write(false);
+                                Secador.Write(true);
+                                Ventilador1.Write(false);
+                                Ventilador2.Write(false);
                                 Debug.Print("SECADOR");
                             }
                             else                                                   // APAGAMOS TODO
                             {
-                                pruebaRelay.Write(false);
-                                pruebaRelay2.Write(false);
-                                pruebarelay3.Write(false);
+                                Secador.Write(false);
+                                Ventilador1.Write(false);
+                                Ventilador2.Write(false);
                                 Debug.Print("OFF - DENTRO DEL RANGO");
                                 //Datos.timeInRangeTemp++;
                             }
@@ -240,7 +229,7 @@ namespace NetduinoController
                                 //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
 
                             lcd.SetCursorPosition(0, 0);
-                            lcd.Write(Datos.tempMin.ToString("N1") + " - " + Datos.tempMax.ToString("N1"));
+                            lcd.Write(Datos.tempMin.ToString("N1") + "-" + Datos.tempMax.ToString("N1"));
 
                             lcd.SetCursorPosition(13, 0);
                             lcd.Write(Datos.timeLeft.ToString());
@@ -250,6 +239,9 @@ namespace NetduinoController
 
                             lcd.SetCursorPosition(13, 1);
                             lcd.Write(Datos.timeInRangeTemp.ToString());
+
+                            lcd.SetCursorPosition(5, 1);
+                            lcd.Write("["+Datos.roundTime.ToString()+"]");
 
                             Thread.Sleep(1000);
                             lcd.SetCursorPosition(12, 0);
@@ -275,7 +267,7 @@ namespace NetduinoController
 
 
                         lcd.Clear();
-                        // lcd.ClearDisplay();
+                        //lcd.ClearDisplay();
                         //lcd.Show("Temp:" + Datos.tempAct + " C", 200, true);
                     }
                     else

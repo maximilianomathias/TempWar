@@ -10,7 +10,7 @@ namespace NetduinoController
         public static int displayRefresh = 500; // In ms
         public static int refresh = 250; // In ms
         public static int roundTime = 60; // in s  
-        public static String colaRonda = "";
+        public static String roundQueue = "";
 
         public static TemperatureRange[] rangos; // aqui guardamos las diferentes rondas. 
         public static TemperatureRange[] rangosFinal; // 
