@@ -123,7 +123,7 @@ namespace NetduinoController.Web
                             }
                             
                             Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
-                            Debug.Print("------> datos colaronda: " + Datos.roundQueue);
+                            Debug.Print("------> datos roundQueue: " + Datos.roundQueue);
                             Debug.Print("------> tiempo total: " + Datos.timeLeft);
                         }
 
@@ -174,7 +174,7 @@ namespace NetduinoController.Web
 
                         // Instanciamos lo nuevo objetos TemperatureRange
                         Datos.rangos = new TemperatureRange[rangos.Length];
-                        Debug.Print("----->Numero de rangos: " + rangos.Length);
+                        //Debug.Print("----->Numero de rangos: " + rangos.Length);
 
                         for (int i = 0; i < (rangos.Length-1); i++)
                         {
@@ -192,10 +192,10 @@ namespace NetduinoController.Web
                                     Debug.Print(j.ToString());
                                     if ((j + 1) <= (rangos.Length - 2))
                                     {
-                                        Debug.Print("Estoy aqui" + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
+                                        //Debug.Print("Estoy aqui" + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
                                         if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
                                         { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
-                                            Debug.Print("Dentro");
+                                            
                                             temporal = Datos.rangos[j].MinTemp;
                                             Datos.rangos[j].MinTemp = Datos.rangos[j + 1].MinTemp;
                                             Datos.rangos[j + 1].MinTemp = temporal;
@@ -215,20 +215,11 @@ namespace NetduinoController.Web
                                     }
                                 }
                             }
-                        Debug.Print(Datos.rangos[0].MinTemp + "-" + Datos.rangos[0].MaxTemp);
-
-
-
-                        // Change the params
-                        //Datos.tempMax = double.Parse(e.Command.Arguments[1].ToString());
-                        //Datos.tempMin = double.Parse(e.Command.Arguments[2].ToString());
+                       
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[1].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[2].ToString());
                         Datos.timeLeft = int.Parse(e.Command.Arguments[3].ToString());
-                        //Datos.roundTime = (int.Parse(e.Command.Arguments[5].ToString()));
-
-                        
-
+                       
                         // Indicate we are ready
                         ready = true;
 
@@ -257,13 +248,15 @@ namespace NetduinoController.Web
                         }
                         int rounds = 0;
                         Datos.timeInRangeTemp = 0;
+
                         while(rounds < Datos.rangos.Length-1)
                         {
                             // Insertamos los parametros de cada partida
                             Datos.tempMax = Datos.rangos[rounds].MaxTemp;
                             Datos.tempMin = Datos.rangos[rounds].MinTemp;
                             Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
-
+                            Program.roundTimeAux = Datos.roundTime;
+                       
                             // Start the round         
                             new Thread(Program.startRound).Start();
 
@@ -271,7 +264,7 @@ namespace NetduinoController.Web
                             while (Datos.competi)
                             {
                                 int freemem = int.Parse(Debug.GC(true).ToString());
-                                Debug.Print("-------->Esta es la memoria disponible en la placa: "+freemem);
+                                //Debug.Print("-------->Esta es la memoria disponible en la placa: "+freemem);
                                 Thread.Sleep(1000);
                             }
                             ready = false;
@@ -439,7 +432,7 @@ namespace NetduinoController.Web
 
                                         "<p>Temperatura Max <b>(&deg;C)</b> <input name='tempMax' id='tempMax' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMax + "' " + disabled + "></input></p>" +
                                         "<p>Temperatura Min <b>(&deg;C)</b> <input name='tempMin' id='tempMin' type='number' max='30' min='12' step='0.1' value='" + Datos.tempMin + "' " + disabled + "></input></p>" +
-                                        "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' id='time' type='number' value='" + Datos.roundTime + "' " + disabled + "></input></p>" +
+                                        "<p>Duraci&oacute;n Ronda <b>(s)</b> <input name='time' id='time' type='number' value='inserte el tiempo' " + disabled + "></input></p>" +
                                         "<input type = 'hidden' id = 'joint'>"+
                                         
                                         //"<input type = 'submit' value = 'Set Round' onclick = 'set();' />" +

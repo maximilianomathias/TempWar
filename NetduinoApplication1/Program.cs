@@ -20,6 +20,8 @@ namespace NetduinoController
         private static OutputPort Ventilador1 = new OutputPort(Pins.GPIO_PIN_D12, false);
         private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
+
+        public static int roundTimeAux;
         public static void Main() {
             // Create a WebServer
             MyWebServer server = new MyWebServer();
@@ -97,15 +99,10 @@ namespace NetduinoController
             //Datos.timeLeft = Datos.roundTime; ---------------------------------------------------------------->
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
-                
                 Thread.Sleep(1000);
             }
+            Datos.finishBattle = true;
             Datos.competi = false;
-        }
-
-        private static void puntuacion()
-        {
-            
         }
 
         /// <summary>
@@ -167,13 +164,14 @@ namespace NetduinoController
             Double limiteSup = 0.35 * rango;
             Double limiteInf = 0.25 * rango;
 
-            
 
-            int tiempo = 0;
+
+            //roundTimeAux = int.Parse(Datos.roundTime.ToString());
             
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
-                
+                Debug.Print("Dentrodel while de redTemp(). valor de Datos.roundTemp: "+Datos.roundTime);
+                Debug.Print("El valor del int que copia: "+roundTimeAux);
                 try
                 {
                     if (_oneWire.TouchReset() > 0)
@@ -190,11 +188,11 @@ namespace NetduinoController
                         ushort temperature = (byte)_oneWire.ReadByte();
                         temperature |= (ushort)(_oneWire.ReadByte() << 8); // MSB
 
-                        tiempo++;
+                        
                         Datos.tempAct = temperature / 16.0;
 
-                        //Debug.Print("Temperatura máxima: " + Datos.tempMax + " Temperatura minima: " + Datos.tempMin);
-                        if (Datos.competi)
+                       
+                        if (Datos.competi && !Datos.finishBattle)
                         {
                             // tanto el secador como el ventilador, operan en FALSE - circuito cerrado
                             if (Datos.tempAct >= (Datos.tempMax - limiteSup))      // FRIO
@@ -202,14 +200,14 @@ namespace NetduinoController
                                 Secador.Write(false);
                                 Ventilador1.Write(true);
                                 Ventilador2.Write(true);
-                                Debug.Print("VENTILADOR");
+                                //Debug.Print("VENTILADOR");
                             }
                             else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                             {
                                 Secador.Write(true);
                                 Ventilador1.Write(false);
                                 Ventilador2.Write(false);
-                                Debug.Print("SECADOR");
+                                //Debug.Print("SECADOR");
                             }
                             else                                                   // APAGAMOS TODO
                             {
@@ -219,51 +217,55 @@ namespace NetduinoController
                                 Debug.Print("OFF - DENTRO DEL RANGO");
                                 //Datos.timeInRangeTemp++;
                             }
-                            if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.timeLeft != 0))
+                            if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (roundTimeAux != 0) /*&& (Datos.roundTime!=0)*/)
                             {
-                                Debug.Print("--------DENTRO DEL RAGO DE PUNTUACION");
                                 Datos.timeInRangeTemp++;
+                                roundTimeAux--;
+                                Debug.Print("--->tiempo restante para este rango: " + roundTimeAux);
+                                Debug.Print(" DENTRO DEL RANGO");
                             }
-                            
 
-                                //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
+
+                            //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
 
                             lcd.SetCursorPosition(0, 0);
-                            lcd.Write(Datos.tempMin.ToString("N1") + "-" + Datos.tempMax.ToString("N1"));
+                            lcd.Write("[" + Datos.tempMin.ToString("N1") + "-" + Datos.tempMax.ToString("N1") + "]");
 
-                            lcd.SetCursorPosition(13, 0);
-                            lcd.Write(Datos.timeLeft.ToString());
+                            lcd.SetCursorPosition(12, 0);
+                            lcd.Write(Datos.roundTime.ToString() + "s");
 
                             lcd.SetCursorPosition(0, 1);
-                            lcd.Write(Datos.tempAct.ToString("N1") + "C");
+                            lcd.Write(Datos.tempAct.ToString("N1") + "C [" + Datos.timeInRangeTemp.ToString() + "s" + "]");
 
                             lcd.SetCursorPosition(13, 1);
-                            lcd.Write(Datos.timeInRangeTemp.ToString());
-
-                            lcd.SetCursorPosition(5, 1);
-                            lcd.Write("["+Datos.roundTime.ToString()+"]");
+                            lcd.Write(Datos.timeLeft.ToString());
 
                             Thread.Sleep(1000);
-                            lcd.SetCursorPosition(12, 0);
-                            lcd.Write("    ");
+                            
+                            if (roundTimeAux == 0)
+                            {
+                                Datos.competi = false;
+                                Debug.Print("-------->Se ha acabado el rountTime de esta ronda");
+                            }
 
+
+                        }
+                        else if (Datos.finishBattle)
+                        {
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
-                            lcd.Write("                ");
-
+                            lcd.Write("total: " + Datos.timeInRangeTemp+" seg.");
+                            Thread.Sleep(1000);
                         }
                         else
                         {
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
-                            lcd.Write("Temp: "+Datos.tempAct.ToString("N1") + "C");
+                            lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
                             Thread.Sleep(1000);
-                            lcd.SetCursorPosition(0, 1);
-                            lcd.Write("                ");
-
                         }
-                      
-
 
 
                         lcd.Clear();
