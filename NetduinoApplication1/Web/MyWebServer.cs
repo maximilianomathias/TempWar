@@ -70,13 +70,11 @@ namespace NetduinoController.Web
 
                 case "index":
                     {
-                        // If there is a pending message, save it to show in the page and then resets it
                         string message = msgAux;
-                        if (!msgAux.Equals(""))
-                        {
-                            msgAux = "";
-                        }
 
+                        if (!msgAux.Equals(""))
+                            msgAux = "";
+                        
                         // Return the index to web user.
                         e.ReturnString = writeHTML(message);
                         
@@ -290,8 +288,13 @@ namespace NetduinoController.Web
                                 }  
                             }
                         }
-                        ready = false;
 
+                        ready = false;
+                        if (Datos.finishBattle)
+                        {
+                            Debug.Print("---------terminado lso hilos");
+                            nuevaRonda.Abort();
+                        }
                         break;
                     }
                 case "coolermode":

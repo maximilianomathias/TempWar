@@ -27,20 +27,12 @@ namespace NetduinoController
             MyWebServer server = new MyWebServer();
             I2CDevice sensor = new I2CDevice(new I2CDevice.Configuration(0x48, 50));
 
-           // byte[] currentConfig = ReadTMP102Configuration(sensor);
-            // Start the WebServer
             server.Start();
-            // Inicializamos la patalla lcd
-
+  
             new Thread(readTemp).Start();
-            Debug.Print(Datos.timeLeft.ToString());
-            // ************************************************start the Time Controller
+            
             TimeController timecontroller = new TimeController();
             bool configured;
-
-           // ranges[0] = new TemperatureRange(12, 15, 5000);
-           // ranges[1] = new TemperatureRange(22, 25, 5000);
-           // ranges[2] = new TemperatureRange(12.5, 13, 2000);
             string errorMessage = null;
             // el segundo argumento tiene que ser la suma de los arrays ^^^^
             configured =  timecontroller.Configure(Datos.rangos, 100000, 500, out errorMessage);
@@ -66,17 +58,17 @@ namespace NetduinoController
         public static void startRound() {
 
             Debug.Print("------------------------------------------NUEVA RONDA---------------------------------------------");
-            // Empezar el temporizador de la nueva ronda
-            new Thread(timer).Start();
+            
+            Thread temporizador = new Thread(timer); // Empezar el temporizador de la nueva ronda
+            Thread parpadeo = new Thread(blink);// Hace que el led parpadee cuando estemos en competicion
 
-            // Hace que el led parpadee cuando estemos en competicion
-            new Thread(blink).Start();
+            temporizador.Start();
+            parpadeo.Start();
 
-            // TODO: Do the competition stuff here
             while (Datos.competi)
             {
                 Debug.Print("----------DENTRO DEL WHILE Program.78---------");
-                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) /*&& (Datos.roundTime!=0)*/)
+                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) && (Datos.timeLeft!=0))
                 {
                     Datos.timeInRangeTemp++;
                     Datos.roundTimeAux--;
@@ -86,7 +78,14 @@ namespace NetduinoController
                 // Wait for the refresh rate
                 Thread.Sleep(1000);
             }
-            // TODO: The round has finished => Turn off devices if needed
+
+            if (Datos.finishBattle)
+            {
+                Debug.Print("---------TERMINANDO LSO PROCESOS DE TEMPORIZADOR Y PARPADEO---------");
+                temporizador.Abort();
+                parpadeo.Abort();
+            }
+            
         }
 
         /// <summary>
@@ -101,6 +100,8 @@ namespace NetduinoController
             }
             Datos.finishBattle = true;
             Datos.competi = false;
+            
+            
         }
 
         /// <summary>
@@ -126,11 +127,6 @@ namespace NetduinoController
         /// </summary>
         private static void readTemp() {
 
-            // TODO: Implement your way to read the temperature from the sensor
-            // This is just an example, you may do it your way
-
-            // Define the input
-            //SecretLabs.NETMF.Hardware.AnalogInput a0 = new SecretLabs.NETMF.Hardware.AnalogInput(Pins.GPIO_PIN_A0);
             OneWire _oneWire = new OneWire(new OutputPort(Pins.GPIO_PIN_D0, false));
 
             var lcdProvider = new GpioLcdTransferProvider(
@@ -149,15 +145,14 @@ namespace NetduinoController
             var lcd = new Lcd(lcdProvider);
 
             lcd.Begin(16, 2);
-            
-
-            Double rango = Datos.tempMax - Datos.tempMin;
-            Double limiteSup = 0.35 * rango;
-            Double limiteInf = 0.25 * rango;
 
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
-                
+
+                Double rango = Datos.tempMax - Datos.tempMin;
+                Double limiteSup = 0.35 * rango;
+                Double limiteInf = 0.25 * rango;
+
                 try
                 {
                     if (_oneWire.TouchReset() > 0)
@@ -173,8 +168,6 @@ namespace NetduinoController
 
                         ushort temperature = (byte)_oneWire.ReadByte();
                         temperature |= (ushort)(_oneWire.ReadByte() << 8); // MSB
-
-                        
                         Datos.tempAct = temperature / 16.0;
 
                        
@@ -199,8 +192,6 @@ namespace NetduinoController
                             {
                                 off();
                             }
-
-
 
                             //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
                             lcd.Clear();
