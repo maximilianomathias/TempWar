@@ -21,7 +21,7 @@ namespace NetduinoController
         private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
 
-        public static int roundTimeAux;
+       
         public static void Main() {
             // Create a WebServer
             MyWebServer server = new MyWebServer();
@@ -31,20 +31,11 @@ namespace NetduinoController
             // Start the WebServer
             server.Start();
             // Inicializamos la patalla lcd
+
             new Thread(readTemp).Start();
             Debug.Print(Datos.timeLeft.ToString());
             // ************************************************start the Time Controller
             TimeController timecontroller = new TimeController();
-
-            //Pruebas 
-            /*
-                string de numero decimal separado por comas hay que hacersel un double.parse(string). 
-                Hay que asegurarse de que hay un try catch dentro de  parse. 
-            */
-
-            
-            // ************************************************definir los array de rangos 
-            //TemperatureRange[] ranges = new TemperatureRange[3];
             bool configured;
 
            // ranges[0] = new TemperatureRange(12, 15, 5000);
@@ -73,21 +64,28 @@ namespace NetduinoController
         /// Starts one round of the competition.
         /// </summary>
         public static void startRound() {
-            
 
+            Debug.Print("------------------------------------------NUEVA RONDA---------------------------------------------");
             // Empezar el temporizador de la nueva ronda
             new Thread(timer).Start();
 
             // Hace que el led parpadee cuando estemos en competicion
             new Thread(blink).Start();
 
-          
             // TODO: Do the competition stuff here
-            while (Datos.competi) {
+            while (Datos.competi)
+            {
+                Debug.Print("----------DENTRO DEL WHILE Program.78---------");
+                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) /*&& (Datos.roundTime!=0)*/)
+                {
+                    Datos.timeInRangeTemp++;
+                    Datos.roundTimeAux--;
+                    Debug.Print("--->tiempo restante para este rango: " + Datos.roundTimeAux);
+                    Debug.Print(" DENTRO DEL RANGO");
+                }
                 // Wait for the refresh rate
-                Thread.Sleep(Datos.refresh);
+                Thread.Sleep(1000);
             }
-
             // TODO: The round has finished => Turn off devices if needed
         }
 
@@ -116,6 +114,13 @@ namespace NetduinoController
             led.Write(false);
         }
 
+        private static void off()
+        {
+            Secador.Write(false);
+            Ventilador1.Write(false);
+            Ventilador2.Write(false);
+        }
+
         /// <summary>
         /// Refresh the temp reading the sensor
         /// </summary>
@@ -127,20 +132,6 @@ namespace NetduinoController
             // Define the input
             //SecretLabs.NETMF.Hardware.AnalogInput a0 = new SecretLabs.NETMF.Hardware.AnalogInput(Pins.GPIO_PIN_A0);
             OneWire _oneWire = new OneWire(new OutputPort(Pins.GPIO_PIN_D0, false));
-           // LCD lcd = new LCD(
-               // Pins.GPIO_PIN_D11, // RS
-                //Pins.GPIO_PIN_D9,  // Enable
-                //Pins.GPIO_PIN_D7,  // D4
-                //Pins.GPIO_PIN_D5,  // D5
-                //Pins.GPIO_PIN_D3,  // D6
-                //Pins.GPIO_PIN_D1,  // D7
-                //20,                // Number of Columns 
-                //LCD.Operational.DoubleLIne, // LCD Row Format
-                //4,                 // Number of Rows in LCD
-                //LCD.Operational.Dot5x8);    // Dot Size of LCD
-            //Double valor;
-            //Double voltage;
-            //lcd.Show("prueba",1000,true);
 
             var lcdProvider = new GpioLcdTransferProvider(
             Pins.GPIO_PIN_D11,  // RS
@@ -164,14 +155,9 @@ namespace NetduinoController
             Double limiteSup = 0.35 * rango;
             Double limiteInf = 0.25 * rango;
 
-
-
-            //roundTimeAux = int.Parse(Datos.roundTime.ToString());
-            
             // Infinite loop that reads the temp and stores it in tempAct
             while (true) {
-                Debug.Print("Dentrodel while de redTemp(). valor de Datos.roundTemp: "+Datos.roundTime);
-                Debug.Print("El valor del int que copia: "+roundTimeAux);
+                
                 try
                 {
                     if (_oneWire.TouchReset() > 0)
@@ -211,23 +197,13 @@ namespace NetduinoController
                             }
                             else                                                   // APAGAMOS TODO
                             {
-                                Secador.Write(false);
-                                Ventilador1.Write(false);
-                                Ventilador2.Write(false);
-                                Debug.Print("OFF - DENTRO DEL RANGO");
-                                //Datos.timeInRangeTemp++;
+                                off();
                             }
-                            if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (roundTimeAux != 0) /*&& (Datos.roundTime!=0)*/)
-                            {
-                                Datos.timeInRangeTemp++;
-                                roundTimeAux--;
-                                Debug.Print("--->tiempo restante para este rango: " + roundTimeAux);
-                                Debug.Print(" DENTRO DEL RANGO");
-                            }
+
 
 
                             //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
-
+                            lcd.Clear();
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("[" + Datos.tempMin.ToString("N1") + "-" + Datos.tempMax.ToString("N1") + "]");
 
@@ -242,7 +218,7 @@ namespace NetduinoController
 
                             Thread.Sleep(1000);
                             
-                            if (roundTimeAux == 0)
+                            if (Datos.roundTimeAux == 0)
                             {
                                 Datos.competi = false;
                                 Debug.Print("-------->Se ha acabado el rountTime de esta ronda");
@@ -252,30 +228,32 @@ namespace NetduinoController
                         }
                         else if (Datos.finishBattle)
                         {
+                            lcd.Clear();
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("total: " + Datos.timeInRangeTemp+" seg.");
-                            Thread.Sleep(1000);
+                            off();
+                            Thread.Sleep(Datos.displayRefresh);
+                           
                         }
                         else
                         {
+                            lcd.Clear();
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
-                            Thread.Sleep(1000);
+                            off();
+                            Thread.Sleep(Datos.displayRefresh);
                         }
 
-
-                        lcd.Clear();
-                        //lcd.ClearDisplay();
-                        //lcd.Show("Temp:" + Datos.tempAct + " C", 200, true);
                     }
                     else
                     {
-                        Debug.Print("ReadTemperatureToConsole " + "No device detected");
-                        //Could be that you read to fast after previous read. Include Thread.Sleep(100);
+                        Debug.Print("----Modo de espera");
+                        //Could be that you read to fast after previous read. Include 
+                        Thread.Sleep(1000);
                     }
                 }
                 catch (Exception ex)
@@ -285,7 +263,5 @@ namespace NetduinoController
 
             }
         }
-
     } // Program
-
 } // namespace

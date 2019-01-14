@@ -210,8 +210,7 @@ namespace NetduinoController.Web
                                             Datos.rangos[j].RangeTimeInMilliseconds = Datos.rangos[j + 1].RangeTimeInMilliseconds;
                                             Datos.rangos[j + 1].RangeTimeInMilliseconds = temporalTem;
                                             Debug.Print("Cambiado: " + Datos.rangos[j].RangeTimeInMilliseconds + " - " + Datos.rangos[j + 1].RangeTimeInMilliseconds);
-                                    }
-                                   
+                                        }
                                     }
                                 }
                             }
@@ -219,7 +218,12 @@ namespace NetduinoController.Web
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[1].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[2].ToString());
                         Datos.timeLeft = int.Parse(e.Command.Arguments[3].ToString());
-                       
+
+                        Datos.tempMax = Datos.rangos[0].MaxTemp;
+                        Datos.tempMin = Datos.rangos[0].MinTemp;
+                        Datos.roundTime = Datos.rangos[0].RangeTimeInMilliseconds;
+                        Datos.roundTimeAux = Datos.roundTime;
+
                         // Indicate we are ready
                         ready = true;
 
@@ -249,41 +253,44 @@ namespace NetduinoController.Web
                         int rounds = 0;
                         Datos.timeInRangeTemp = 0;
 
-                        while(rounds < Datos.rangos.Length-1)
+                        Thread nuevaRonda = new Thread(Program.startRound);
+                        nuevaRonda.Start();
+
+                        // Insertamos los parametros de cada partida
+                        
+                        while (Datos.competi)
                         {
-                            // Insertamos los parametros de cada partida
-                            Datos.tempMax = Datos.rangos[rounds].MaxTemp;
-                            Datos.tempMin = Datos.rangos[rounds].MinTemp;
-                            Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
-                            Program.roundTimeAux = Datos.roundTime;
-                       
-                            // Start the round         
-                            new Thread(Program.startRound).Start();
-
-                            // Wait for the round to finish
-                            while (Datos.competi)
+                            while (rounds < Datos.rangos.Length - 1)
                             {
-                                int freemem = int.Parse(Debug.GC(true).ToString());
-                                //Debug.Print("-------->Esta es la memoria disponible en la placa: "+freemem);
-                                Thread.Sleep(1000);
+                                if(Datos.roundTimeAux == 0 && Datos.rangos[rounds+1] != null)
+                                {
+                                    Debug.Print("--------------------------------------INSERTANDO NUEVOS DATOS DE RONDA------------------------------");
+                                    rounds++;
+                                    Datos.tempMax = Datos.rangos[rounds].MaxTemp;
+                                    Datos.tempMin = Datos.rangos[rounds].MinTemp;
+                                    Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
+                                    Datos.roundTimeAux = Datos.roundTime;
+                                }
+                              
+                                // Return feedback to web user.
+                                if (Datos.error)
+                                {
+                                    Datos.error = false;
+                                    msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
+                                    e.ReturnString = redirect("index");
+                                    break;
+                                }
+                                else
+                                {
+                                    /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
+                                    msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
+                                    e.ReturnString = redirect("index");
+                                    Datos.roundQueue = "";
+                                    break;
+                                }  
                             }
-                            ready = false;
-
-                            // Return feedback to web user.
-                            if (Datos.error)
-                            {
-                                Datos.error = false;
-                                msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
-                                e.ReturnString = redirect("index");
-                            }
-                            else
-                            {
-                                /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
-                                msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
-                                e.ReturnString = redirect("index");
-                            }
-                            rounds++;
                         }
+                        ready = false;
 
                         break;
                     }
