@@ -84,7 +84,7 @@ namespace NetduinoController
         /// </summary>
         private static void timer() {
             Datos.competi = true;
-            
+            Datos.finishBattle = false;
             //Datos.timeLeft = Datos.roundTime; ----------------------------------------------------------------> esto estaba por defecto
             while (Datos.timeLeft > 0) {
                 Datos.timeLeft--;
@@ -143,8 +143,8 @@ namespace NetduinoController
             while (true) {
 
                 Double rango = Datos.tempMax - Datos.tempMin;
-                Double limiteSup = 0.35 * rango;
-                Double limiteInf = 0.25 * rango;
+                Double limiteSup = 0.50 * rango;
+                Double limiteInf = 0.20 * rango;
 
                 try
                 {
@@ -204,6 +204,7 @@ namespace NetduinoController
                             
                             if (Datos.roundTimeAux == 0)
                             {
+                                Datos.finishBattle = true;
                                 Datos.competi = false;
                                 off();
                                 Debug.Print("-------->Se ha acabado el rountTime de esta ronda");
@@ -212,11 +213,12 @@ namespace NetduinoController
                         }
                         else if (Datos.finishBattle)
                         {
+                            Debug.Print("-------->dentro de la condicion alskdlkajsldkajlskd");
                             lcd.Clear();
                             lcd.SetCursorPosition(0, 0);
                             lcd.Write("Temp War Grupo 1");
                             lcd.SetCursorPosition(0, 1);
-                            lcd.Write("total: " + Datos.timeInRangeTemp+" seg.");
+                            lcd.Write("Total: " + Datos.timeInRangeTemp+" seg.");
                             Thread.Sleep(20000);
                             
                         }

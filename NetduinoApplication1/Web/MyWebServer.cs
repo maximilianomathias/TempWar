@@ -255,6 +255,14 @@ namespace NetduinoController.Web
                         nuevaRonda.Start();
 
                         // Insertamos los parametros de cada partida
+
+                      /*  for(int a = 0; a < Datos.rangos.Length -1; a++)
+                        {
+                            Datos.totalRangeTime += Datos.rangos[a].RangeTimeInMilliseconds;
+                            Debug.Print("---------------------->Tiempo guardado: "+Datos.totalRangeTime );
+                            rounds++;
+                        } */
+
                         
                         while (Datos.competi)
                         {
@@ -268,6 +276,7 @@ namespace NetduinoController.Web
                                     Datos.tempMin = Datos.rangos[rounds].MinTemp;
                                     Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
                                     Datos.roundTimeAux = Datos.roundTime;
+
                                 }
                               
                                 // Return feedback to web user.
