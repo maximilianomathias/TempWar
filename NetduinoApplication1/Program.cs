@@ -220,6 +220,7 @@ namespace NetduinoController
                             lcd.SetCursorPosition(0, 1);
                             lcd.Write("Total: " + Datos.timeInRangeTemp+" seg.");
                             Thread.Sleep(20000);
+                            off();
                             
                         }
                         else
