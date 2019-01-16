@@ -82,8 +82,7 @@ namespace NetduinoController.Web
                     }
                 case "setround":
                     {
-                        //
-                        //Debug.Print("------->Seteando los parametros para la ronda");
+                        Debug.Print("------->Seteando los parametros para la ronda");
                         if (ready)
                         {
                             msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
@@ -121,9 +120,9 @@ namespace NetduinoController.Web
                                     Datos.roundQueue += '-';
                             }
                             
-                            //Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
-                            //Debug.Print("------> datos roundQueue: " + Datos.roundQueue);
-                            //Debug.Print("------> tiempo total: " + Datos.timeLeft);
+                           /* Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
+                            Debug.Print("------> datos roundQueue: " + Datos.roundQueue);
+                            Debug.Print("------> tiempo total: " + Datos.timeLeft);*/
                         }
 
                         msgAux = "Se ha introducido una nueva ronda. Click 'set ronda' para una nueva ronda o 'Guardar' si ya estas preparado";
@@ -254,12 +253,22 @@ namespace NetduinoController.Web
 
                         Thread nuevaRonda = new Thread(Program.startRound);
                         nuevaRonda.Start();
-                             
+
+                        // Insertamos los parametros de cada partida
+
+                      /*  for(int a = 0; a < Datos.rangos.Length -1; a++)
+                        {
+                            Datos.totalRangeTime += Datos.rangos[a].RangeTimeInMilliseconds;
+                            Debug.Print("---------------------->Tiempo guardado: "+Datos.totalRangeTime );
+                            rounds++;
+                        } */
+
+                        
                         while (Datos.competi)
                         {
                             while (rounds < Datos.rangos.Length - 1)
                             {
-                                if (Datos.roundTimeAux == 0 && Datos.rangos[rounds + 1] != null)
+                                if(Datos.roundTimeAux == 0 && Datos.rangos[rounds+1] != null)
                                 {
                                     Debug.Print("--------------------------------------INSERTANDO NUEVOS DATOS DE RONDA------------------------------");
                                     rounds++;
@@ -267,33 +276,27 @@ namespace NetduinoController.Web
                                     Datos.tempMin = Datos.rangos[rounds].MinTemp;
                                     Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
                                     Datos.roundTimeAux = Datos.roundTime;
+
                                 }
+                              
                                 // Return feedback to web user.
                                 if (Datos.error)
                                 {
                                     Datos.error = false;
                                     msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
                                     e.ReturnString = redirect("index");
-                                    Datos.roundQueue = "";
                                     break;
                                 }
-                                else if(Datos.finishBattle)
+                                else
                                 {
+                                    /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
                                     msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
                                     e.ReturnString = redirect("index");
                                     Datos.roundQueue = "";
                                     break;
-                                }
+                                }  
                             }
-                            
                         }
-                    /*    if((!Datos.competi && Datos.finishBattle) || Datos.timeLeft == 0)
-                        {
-                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
-                            e.ReturnString = redirect("index");
-                            Datos.roundQueue = "";
-                            break;
-                        }*/
 
                         ready = false;
                         
@@ -363,7 +366,7 @@ namespace NetduinoController.Web
             if (Datos.competi) start = "";
             string cooler = "<a href='#' onclick='coolerMode()'>Modo Enfriamiento</a>";
             if (ready) cooler = "";
-            inputData = "";
+            string inputText = "";
             //Write the HTML page
             string html = "<!DOCTYPE html><html><head><title>Grupo 1 MDV</title>" +
 
