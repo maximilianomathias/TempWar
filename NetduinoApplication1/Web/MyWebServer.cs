@@ -13,7 +13,7 @@ namespace NetduinoController.Web
         private static string inputData = "";
 
         private WebServer server;
-
+        
         private static bool ready = false;
 
         /// <summary>
@@ -187,27 +187,23 @@ namespace NetduinoController.Web
                             {
                                 for (int j = 0; j <= (rangos.Length - 2); j++)
                                 {
-                                    //Debug.Print(j.ToString());
                                     if ((j + 1) <= (rangos.Length - 2))
                                     {
-                                        //Debug.Print("Estoy aqui" + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
                                         if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
                                         { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
                                             
                                             temporal = Datos.rangos[j].MinTemp;
                                             Datos.rangos[j].MinTemp = Datos.rangos[j + 1].MinTemp;
                                             Datos.rangos[j + 1].MinTemp = temporal;
-                                            //Debug.Print("Cambiado: " + Datos.rangos[j].MinTemp + " - " + Datos.rangos[j + 1].MinTemp);
 
                                             temporalMax = Datos.rangos[j].MaxTemp;
                                             Datos.rangos[j].MaxTemp = Datos.rangos[j + 1].MaxTemp;
                                             Datos.rangos[j + 1].MaxTemp = temporalMax;
-                                            //Debug.Print("Cambiado: " + Datos.rangos[j].MaxTemp + " - " + Datos.rangos[j + 1].MaxTemp);
 
                                             temporalTem = Datos.rangos[j].RangeTimeInMilliseconds;
                                             Datos.rangos[j].RangeTimeInMilliseconds = Datos.rangos[j + 1].RangeTimeInMilliseconds;
                                             Datos.rangos[j + 1].RangeTimeInMilliseconds = temporalTem;
-                                            //Debug.Print("Cambiado: " + Datos.rangos[j].RangeTimeInMilliseconds + " - " + Datos.rangos[j + 1].RangeTimeInMilliseconds);
+                                           
                                         }
                                     }
                                 }
@@ -248,6 +244,7 @@ namespace NetduinoController.Web
                             e.ReturnString = redirect("index");
                             break;
                         }
+
                         int rounds = 0;
                         Datos.timeInRangeTemp = 0;
 
