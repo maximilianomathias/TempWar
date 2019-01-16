@@ -253,17 +253,7 @@ namespace NetduinoController.Web
 
                         Thread nuevaRonda = new Thread(Program.startRound);
                         nuevaRonda.Start();
-
-                        // Insertamos los parametros de cada partida
-
-                      /*  for(int a = 0; a < Datos.rangos.Length -1; a++)
-                        {
-                            Datos.totalRangeTime += Datos.rangos[a].RangeTimeInMilliseconds;
-                            Debug.Print("---------------------->Tiempo guardado: "+Datos.totalRangeTime );
-                            rounds++;
-                        } */
-
-                        
+    
                         while (Datos.competi)
                         {
                             while (rounds < Datos.rangos.Length - 1)
@@ -287,17 +277,17 @@ namespace NetduinoController.Web
                                     e.ReturnString = redirect("index");
                                     break;
                                 }
-                                else
+                                if (!Datos.competi)
                                 {
-                                    /*msgAux = "Se ha terminado la ronda con " + System.Math.Round((Datos.timeInRangeTemp / 1000) * 10) / 10 + "s en el rango indicado.";*/
                                     msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
                                     e.ReturnString = redirect("index");
-                                    Datos.roundQueue = "";
                                     break;
-                                }  
-                            }
+                                }
+                            } 
                         }
+                       
 
+                        Datos.roundQueue = "";
                         ready = false;
                         
                         break;

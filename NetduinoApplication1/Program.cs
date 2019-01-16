@@ -59,16 +59,17 @@ namespace NetduinoController
 
             while (Datos.competi)
             {
-                //Debug.Print("----------DENTRO DEL WHILE Program.63---------");
                 if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) && (Datos.timeLeft!=0))
                 {
                     Datos.timeInRangeTemp++;
                     Datos.roundTimeAux--;
-                    //Debug.Print("--->tiempo restante para este rango: " + Datos.roundTimeAux);
-                    //Debug.Print(" DENTRO DEL RANGO");
+                    Thread.Sleep(1000);
                 }
-                // simulamos la espera de un segundo
-                Thread.Sleep(1000);
+                if(Datos.roundTimeAux == 0 && Datos.timeLeft != 0)
+                {
+                    Datos.competi = false;
+                    Datos.finishBattle = true;
+                }
             }
 
         }
@@ -119,7 +120,7 @@ namespace NetduinoController
             Datos.coolerMode = true;
             while (true)
             {
-                if (Datos.tempAct >= 20)
+                if (Datos.tempAct >= 18)
                 {
                     Secador.Write(false);
                     Ventilador1.Write(true);
@@ -219,33 +220,36 @@ namespace NetduinoController
                             lcd.Write(Datos.timeLeft.ToString());
 
                             Thread.Sleep(Datos.refresh);
-
-                            if (!Datos.competi)
-                            {
-                                lcd.Clear();
-                                lcd.SetCursorPosition(0, 0);
-                                lcd.Write("Temp War Grupo 1");
-                                lcd.SetCursorPosition(0, 1);
-                                lcd.Write("[" + Datos.tempAct.ToString("N1") + "C] Pts:" + Datos.timeInRangeTemp + "s");
-                                Thread.Sleep(Datos.displayRefresh);
-                            }
-                            if (Datos.coolerMode)
-                            {
-                                lcd.Clear();
-                                lcd.SetCursorPosition(0, 0);
-                                lcd.Write("Cooling Mode");
-                                lcd.SetCursorPosition(0, 1);
-                                lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
-                                Thread.Sleep(Datos.displayRefresh);
-                            }
                         }
-
-                        else
+                        if (!Datos.competi && !Datos.coolerMode)
                         {
-                            Debug.Print("Fallo de sensor");
-                            //Could be that you read to fast after previous read. Include 
-                            Thread.Sleep(1000);
+                            lcd.Clear();
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Temp War Grupo 1");
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write("[" + Datos.tempAct.ToString("N1") + "C] Pts:" + Datos.timeInRangeTemp + "s");
+                            Thread.Sleep(Datos.displayRefresh);
                         }
+                        if(Datos.coolerMode)
+                        {
+                            lcd.Clear();
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Cooling Mode.");
+                            lcd.SetCursorPosition(0, 1);
+                            lcd.Write("Temp: " + Datos.tempAct.ToString("N1") + "C");
+                            Thread.Sleep(Datos.displayRefresh);
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Cooling Mode..");
+                            Thread.Sleep(Datos.displayRefresh);
+                            lcd.SetCursorPosition(0, 0);
+                            lcd.Write("Cooling Mode...");
+                        }
+                    }
+                    else
+                    {
+                        Debug.Print("Fallo de sensor");
+                        //Could be that you read to fast after previous read. Include 
+                        Thread.Sleep(1000);
                     }
                 }
                 catch (Exception ex)
