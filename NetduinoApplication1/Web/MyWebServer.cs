@@ -181,8 +181,8 @@ namespace NetduinoController.Web
                             Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
                             double temporal, temporalMax;
-                            int temporalTem;
-
+                            TemperatureRange temporalTem;
+                            
                             for (int i = 0; i < rangos.Length - 1; i++)
                             {
                                 for (int j = 0; j <= (rangos.Length - 2); j++)
@@ -191,19 +191,9 @@ namespace NetduinoController.Web
                                     {
                                         if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
                                         { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
-                                            
-                                            temporal = Datos.rangos[j].MinTemp;
-                                            Datos.rangos[j].MinTemp = Datos.rangos[j + 1].MinTemp;
-                                            Datos.rangos[j + 1].MinTemp = temporal;
-
-                                            temporalMax = Datos.rangos[j].MaxTemp;
-                                            Datos.rangos[j].MaxTemp = Datos.rangos[j + 1].MaxTemp;
-                                            Datos.rangos[j + 1].MaxTemp = temporalMax;
-
-                                            temporalTem = Datos.rangos[j].RangeTimeInMilliseconds;
-                                            Datos.rangos[j].RangeTimeInMilliseconds = Datos.rangos[j + 1].RangeTimeInMilliseconds;
-                                            Datos.rangos[j + 1].RangeTimeInMilliseconds = temporalTem;
-                                           
+                                            temporalTem = Datos.rangos[j];
+                                            Datos.rangos[j] = Datos.rangos[j + 1];
+                                            Datos.rangos[j + 1] = temporalTem;
                                         }
                                     }
                                 }
