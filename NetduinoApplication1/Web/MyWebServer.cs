@@ -228,43 +228,43 @@ namespace NetduinoController.Web
 
                         Thread nuevaRonda = new Thread(Program.startRound);
                         nuevaRonda.Start();
-                        msgAux = "Ya estamos en competici&oacute;n.";
-                        e.ReturnString = redirect("index");
+                        Datos.competi = true;
+                        //msgAux = "Ya estamos en competici&oacute;n.";
+                        //e.ReturnString = redirect("index");
                         while (Datos.competi)
                         {
-                            while (rounds < Datos.rangos.Length - 1)
+                            
+                            if(Datos.roundTimeAux == 0 && Datos.rangos[rounds+1] != null && rounds < (Datos.rangos.Length - 1))
                             {
-                                if(Datos.roundTimeAux == 0 && Datos.rangos[rounds+1] != null)
-                                {
-                                    Debug.Print("--------------------------------------INSERTANDO NUEVOS DATOS DE RONDA------------------------------");
-                                    rounds++;
-                                    Datos.tempMax = Datos.rangos[rounds].MaxTemp;
-                                    Datos.tempMin = Datos.rangos[rounds].MinTemp;
-                                    Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
-                                    Datos.roundTimeAux = Datos.roundTime;
-
-                                }
-                              
-                                // Return feedback to web user.
-                                if (Datos.error)
-                                {
-                                    Datos.error = false;
-                                    msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
-                                    e.ReturnString = redirect("index");
-                                    break;
-                                }
-                                if (!Datos.competi)
-                                {
-                                    msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
-                                    e.ReturnString = redirect("index");
-                                    Program.off();
-                                    break;
-                                }
-                            } 
+                                Debug.Print("--------------------------------------INSERTANDO NUEVOS DATOS DE RONDA------------------------------");
+                                rounds++;
+                                Datos.tempMax = Datos.rangos[rounds].MaxTemp;
+                                Datos.tempMin = Datos.rangos[rounds].MinTemp;
+                                Datos.roundTime = Datos.rangos[rounds].RangeTimeInMilliseconds;
+                                Datos.roundTimeAux = Datos.roundTime;
+                            }      
+                            
+                            Thread.Sleep(Datos.refresh);
+                        }
+                        // Return feedback to web user.
+                        if (Datos.error)
+                        {
+                            Datos.error = false;
+                            msgAux = "Se ha detenido la competici&oacute;n porque se detect&oacute; una temperatura superior a 40C.";
+                            e.ReturnString = redirect("index");
+                            break;
+                        }
+                        if (!Datos.competi)
+                        {
+                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
+                            ready = false;
+                            e.ReturnString = redirect("index");
+                            Program.off();
+                            break;
                         }
                         Datos.roundQueue = "";
-                        ready = false;
                         
+                  
                         break;
                     }
                 case "coolermode":
