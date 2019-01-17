@@ -124,7 +124,7 @@ namespace NetduinoController
         public static void coolerMode()
         {
             Datos.coolerMode = true;
-            while (true)
+            while (!Datos.competi)
             {
                 if (Datos.tempAct >= 18)
                 {
