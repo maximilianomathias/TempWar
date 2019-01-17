@@ -228,7 +228,7 @@ namespace NetduinoController.Web
 
                         Thread nuevaRonda = new Thread(Program.startRound);
                         nuevaRonda.Start();
-                        msgAux = "La competici&oacute;n ha iniciado...";
+                        msgAux = "Ya estamos en competici&oacute;n.";
                         e.ReturnString = redirect("index");
                         while (Datos.competi)
                         {

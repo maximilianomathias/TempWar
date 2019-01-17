@@ -55,25 +55,11 @@ namespace NetduinoController
             
             Thread temporizador = new Thread(timer); // Empezar el temporizador de la nueva ronda
             Thread parpadeo = new Thread(blink);// Hace que el led parpadee cuando estemos en competicion
+            Thread contadorPuntos = new Thread(pointCounter);
 
             temporizador.Start(); // cuando arranco el temporizador---> Datos.competi = true;
             parpadeo.Start();
-
-            while (Datos.competi)
-            {
-                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) && (Datos.timeLeft!=0))
-                {
-                    Datos.timeInRangeTemp++;
-                    Datos.roundTimeAux--;
-                    Thread.Sleep(1000);
-                }
-                if(Datos.roundTimeAux == 0 && Datos.timeLeft != 0)
-                {
-                    Datos.competi = false;
-                    Datos.finishBattle = true;
-                }
-            }
-
+            contadorPuntos.Start();
         }
         /// <summary>
         /// Starts a timer that will indicate when the round finish
@@ -94,8 +80,26 @@ namespace NetduinoController
             }
             Datos.finishBattle = true; 
             Datos.competi = false;
-            
+
         }
+        private static void pointCounter()
+        {
+            while (Datos.competi)
+            {
+                if ((Datos.tempAct <= Datos.tempMax) && (Datos.tempAct >= Datos.tempMin) && (Datos.roundTimeAux != 0) && (Datos.timeLeft != 0))
+                {
+                    Datos.timeInRangeTemp++;
+                    Datos.roundTimeAux--;
+                    Thread.Sleep(1000);
+                }
+                if (Datos.roundTimeAux == 0 && Datos.timeLeft != 0)
+                {
+                    Datos.competi = false;
+                    Datos.finishBattle = true;
+                }
+            }
+        }
+                        
 
         /// <summary>
         /// Blinks the onboard led while we're in competition
@@ -134,9 +138,13 @@ namespace NetduinoController
                     Datos.coolerMode = false;
                     off();
                     break;
-                }
-                   
+                }  
             }
+        }
+
+        private static void tempRegulate()
+        {
+
         }
 
         /// <summary>
@@ -209,6 +217,7 @@ namespace NetduinoController
                             }
                             else                                                   // APAGAMOS TODO
                                 off();
+                            
 
                             //Datos.tempAct = Microsoft.SPOT.Math.(Datos.tempAct, 1);
                             lcd.Clear();
