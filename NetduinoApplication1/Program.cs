@@ -20,6 +20,8 @@ namespace NetduinoController
         private static OutputPort Ventilador1 = new OutputPort(Pins.GPIO_PIN_D12, false);
         private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
+        private static OutputPort ledCool = new OutputPort(Pins.GPIO_PIN_A0, false);
+        
 
         
         public static void Main() {
@@ -108,7 +110,7 @@ namespace NetduinoController
         /// <summary>
         /// Esta funcion es para pagar todos los controladores
         /// </summary>
-        private static void off()
+        public static void off()
         {
             Secador.Write(false);
             Ventilador1.Write(false);
@@ -130,6 +132,7 @@ namespace NetduinoController
                 if (Datos.tempAct < 15)
                 {
                     Datos.coolerMode = false;
+                    off();
                     break;
                 }
                    
@@ -195,6 +198,8 @@ namespace NetduinoController
                                 Secador.Write(false);
                                 Ventilador1.Write(true);
                                 Ventilador2.Write(true);
+                                ledCool.Write(true);
+
                             }
                             else if (Datos.tempAct <= (Datos.tempMin + limiteInf)) // CALOR
                             {

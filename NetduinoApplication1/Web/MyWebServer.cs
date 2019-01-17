@@ -119,10 +119,6 @@ namespace NetduinoController.Web
                                 else 
                                     Datos.roundQueue += '-';
                             }
-                            
-                           /* Debug.Print("------> todos los comandos estan completos: "+ e.Command.Arguments[0].ToString()+"-"+e.Command.Arguments[1].ToString()+"-"+e.Command.Arguments[2].ToString());
-                            Debug.Print("------> datos roundQueue: " + Datos.roundQueue);
-                            Debug.Print("------> tiempo total: " + Datos.timeLeft);*/
                         }
 
                         msgAux = "Se ha introducido una nueva ronda. Click 'set ronda' para una nueva ronda o 'Guardar' si ya estas preparado";
@@ -140,7 +136,6 @@ namespace NetduinoController.Web
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
-                            // Return feedback to web user.
                             msgAux = "La constrase&ntilde;a es incorrecta.";
                             e.ReturnString = redirect("index");
                             break;
@@ -150,7 +145,6 @@ namespace NetduinoController.Web
                         // Check we're not in cometition
                         if (ready)
                         {
-                            // Return feedback to web user.
                             msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
                             e.ReturnString = redirect("index");
                             break;
@@ -161,7 +155,6 @@ namespace NetduinoController.Web
                             e.Command.Arguments[2].ToString().Length == 0 ||
                             e.Command.Arguments[3].ToString().Length == 0)
                         {
-                            // Return feedback to web user.
                             msgAux = "Debe especificar todos los par&aacute;metros que se piden.";
                             e.ReturnString = redirect("index");
                             break;
@@ -172,15 +165,13 @@ namespace NetduinoController.Web
 
                         // Instanciamos lo nuevo objetos TemperatureRange
                         Datos.rangos = new TemperatureRange[rangos.Length];
-                        //Debug.Print("----->Numero de rangos: " + rangos.Length);
 
                         for (int i = 0; i < (rangos.Length-1); i++)
                         {
                             String[] parametros= rangos[i].Split('-');
-                            // TemperatureRange(double Max, double Min, int RoundTime);
+                            
                             Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
-                            double temporal, temporalMax;
                             TemperatureRange temporalTem;
                             
                             for (int i = 0; i < rangos.Length - 1; i++)
@@ -208,10 +199,8 @@ namespace NetduinoController.Web
                         Datos.roundTime = Datos.rangos[0].RangeTimeInMilliseconds;
                         Datos.roundTimeAux = Datos.roundTime;
 
-                        // Indicate we are ready
                         ready = true;
 
-                        // Return feedback to web user.
                         msgAux = "Los par&aacute;metros se han cambiado satisfactoriamente. Todo preparado.";
                         e.ReturnString = redirect("index");
                         break;
@@ -221,7 +210,6 @@ namespace NetduinoController.Web
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
-                            // Return feedback to web user.
                             msgAux = "La constrase&ntilde;a es incorrecta.";
                             e.ReturnString = redirect("index");
                             break;
@@ -240,7 +228,8 @@ namespace NetduinoController.Web
 
                         Thread nuevaRonda = new Thread(Program.startRound);
                         nuevaRonda.Start();
-    
+                        msgAux = "La competici&oacute;n ha iniciado...";
+                        e.ReturnString = redirect("index");
                         while (Datos.competi)
                         {
                             while (rounds < Datos.rangos.Length - 1)
@@ -268,12 +257,11 @@ namespace NetduinoController.Web
                                 {
                                     msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
                                     e.ReturnString = redirect("index");
+                                    Program.off();
                                     break;
                                 }
                             } 
                         }
-                       
-
                         Datos.roundQueue = "";
                         ready = false;
                         
@@ -284,7 +272,6 @@ namespace NetduinoController.Web
                         // Check the password is correct
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
-                            // Return feedback to web user.
                             msgAux = "La constrase&ntilde;a es incorrecta.";
                             e.ReturnString = redirect("index");
                             break;
@@ -293,7 +280,6 @@ namespace NetduinoController.Web
                         // Check we're not in cometition or ready for it
                         if (ready)
                         {
-                            // Return feedback to web user.
                             msgAux = "No se puede activar este modo en competici&oacute;n ni una vez preparado el sistema.";
                             e.ReturnString = redirect("index");
                             break;
@@ -302,21 +288,18 @@ namespace NetduinoController.Web
                         // Starts the cooler mode
                         new Thread(Program.coolerMode).Start();
 
-                        // Return feedback to web user.
                         msgAux = "Se ha iniciado el modo enfriamiento satisfactoriamente.";
                         e.ReturnString = redirect("index");
                         break;
                     }
                 case "temp":
                     {
-                        // Return feedback to web user.
                         msgAux = "La temperatura del sistema es de " + Datos.tempAct + "C.";
                         e.ReturnString = redirect("index");
                         break;
                     }
                 case "time":
                     {
-                        // Return feedback to web user.
                         msgAux = "El tiempo que se ha mantenido en el rango de temperatura es de " + Datos.timeInRangeTemp+ "s.";
                         e.ReturnString = redirect("index");
                         break;
