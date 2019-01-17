@@ -7,7 +7,7 @@ namespace NetduinoController.Web
 {
     class MyWebServer
     {
-        private static readonly string pass = "pass";
+        private static readonly string pass = "g1mdv";
         private static readonly string IP = "192.168.1.4";
         private static string msgAux = "";
         private static string inputData = "";
@@ -256,15 +256,17 @@ namespace NetduinoController.Web
                         }
                         if (!Datos.competi)
                         {
-                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado";
+                            Datos.roundQueue = "";
+                            Datos.timeLeft = 0;
+                            msgAux = "Se ha terminado la ronda con " + Datos.timeInRangeTemp + " segundos en el rango indicado"+ Datos.roundQueue;
                             ready = false;
                             e.ReturnString = redirect("index");
                             Program.off();
                             break;
                         }
-                        Datos.roundQueue = "";
-                        
-                  
+                       
+
+
                         break;
                     }
                 case "coolermode":
