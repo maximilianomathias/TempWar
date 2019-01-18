@@ -16,29 +16,23 @@ namespace NetduinoController.Web
         
         private static bool ready = false;
 
+        #region MyWebServer
         /// <summary>
-        /// Instantiates a new webserver with our data
+        /// Realiza una nueva instancia de nuestro Servidor Web
         /// </summary>
         public MyWebServer()
         {
-            // Enable DHCP Server
+            // Habilitar el servidor DHCP
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableDhcp();  
 
-            // Assign an static IP to the Netduino
+            // Asignamos una IP statica a la Netduino
             Microsoft.SPOT.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces()[0].EnableStaticIP(IP,
                 "255.255.255.0", "192.168.1.1");
 
-            // Instantiate a new web server.
             server = new WebServer();
-
-            // Add a handler for commands that are received by the server.
             server.CommandReceived += new WebServer.CommandReceivedHandler(server_CommandReceived);
 
-            // Add the commands that the server will parse.
-            // http://[server-ip]/index
-            // http://[server-ip]/setparams/pass/tempMax/tempMin/displayRefresh/refresh/roundTime
-            // http://[server-ip]/start/pass
-            // http://[server-ip]/coolermode/pass
+            // Habilitamos los argumentos autorizados en cada request. 
             server.AllowedCommands.Add(new WebCommand("index", 0));
             server.AllowedCommands.Add(new WebCommand("setparams", 4));
             server.AllowedCommands.Add(new WebCommand("start", 1));
@@ -48,17 +42,21 @@ namespace NetduinoController.Web
             server.AllowedCommands.Add(new WebCommand("setround", 4));
             
         }
+        #endregion
 
+        #region Arrancar Servidor
         /// <summary>
-        /// Starts the server
+        /// Simplemente arranca el servidor
         /// </summary>
         public void Start()
         {
             server.Start();
         }
+        #endregion
 
+        #region Control de peticiones desde el navegador
         /// <summary>
-        /// Handles the CommandReceived event.
+        /// Maneja los eventos recibidos a raves del navegador. Realiza acciones con los argumentos que le pasemos par aposteriormente comunicarse con 'Program'.
         /// </summary>
         private static void server_CommandReceived(object source, WebCommandEventArgs e)
         {
@@ -67,22 +65,20 @@ namespace NetduinoController.Web
 
             switch (e.Command.CommandString)
             {
-
+                #region INDEX
                 case "index":
                     {
                         string message = msgAux;
 
                         if (!msgAux.Equals(""))
                             msgAux = "";
-                        
-                        // Return the index to web user.
                         e.ReturnString = writeHTML(message);
-                        
                         break;
                     }
+                #endregion
+                #region SETROUND
                 case "setround":
                     {
-                        Debug.Print("------->Seteando los parametros para la ronda");
                         if (ready)
                         {
                             msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
@@ -110,7 +106,7 @@ namespace NetduinoController.Web
                         }
                         else
                         {
-                            // concatenamos los datos para guardarlos en la variable 'Datos.roundQueue'
+                            // concatenamos los datos para guardarlos en la variable 'Datos.roundQueue' = xx-xx-xxxx/
                             for(int a = 0; a<3; a++)
                             {
                                 Datos.roundQueue += e.Command.Arguments[a].ToString();
@@ -125,6 +121,8 @@ namespace NetduinoController.Web
                         e.ReturnString = redirect("index");
                         break;
                     }
+                #endregion
+                #region SETPARAMS
                 case "setparams":
                     {
                         if (!e.Command.Arguments[0].Equals(pass))
@@ -133,7 +131,7 @@ namespace NetduinoController.Web
                             e.ReturnString = redirect("index");
                             break;
                         }
-                        // Check the password is correct
+                        // conrol de contaseña
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
                             msgAux = "La constrase&ntilde;a es incorrecta.";
@@ -141,8 +139,7 @@ namespace NetduinoController.Web
                             break;
                         }
 
-
-                        // Check we're not in cometition
+                        // Nos aseguramos que no estamos en competicion
                         if (ready)
                         {
                             msgAux = "No se pueden cambiar los par&aacute;metros en competici&oacute;n ni una vez preparado el sistema.";
@@ -163,32 +160,38 @@ namespace NetduinoController.Web
                         // Guardamos los diferentes rangos en un array de strings separandolos por el '/'
                         String[] rangos = Datos.roundQueue.Split('/');
 
-                        // Instanciamos lo nuevo objetos TemperatureRange
+                        // Instanciamos lo nuevo objetos TemperatureRange con el numero de arrays obtenidos anteriormente en 'rangos'
                         Datos.rangos = new TemperatureRange[rangos.Length];
 
                         for (int i = 0; i < (rangos.Length-1); i++)
                         {
+                            // realizamos un nuevo trim pero con '-' separando asi, TempMax, TempMin y roundTime
                             String[] parametros= rangos[i].Split('-');
                             
                             Datos.rangos[i] = new TemperatureRange(double.Parse(parametros[1]), double.Parse(parametros[0]), int.Parse(parametros[2]));
                         }
                             TemperatureRange temporalTem;
-                            
+
+                            /// <summary>
+                            /// EN ESTE BUCLE REALIZAMOS UN ALGORITMO DE INSERCION ORDENADA. EN NUESTRO CASO LO HACEMOS DESDE LOS RANGOS QUE 
+                            /// SE ENCUENTREN EN UNA TENPERATURA MENOR HACIA LAS MAYORES SIEMPRE FIJANDONOS EN LA TEMPERATURA MINIMA. DENESTA MANERA APROVECHAMOS UN 
+                            /// INCREMENTTO LINEAL DE LA TEMPERATURA EN VEZ DE SALTOS IRREGULARES. SIEMPRE RESPETANDO LOS RANGOS INDICADOS POR EL PROFESOR. 
+                            /// </summary>
                             for (int i = 0; i < rangos.Length - 1; i++)
-                            {
-                                for (int j = 0; j <= (rangos.Length - 2); j++)
                                 {
-                                    if ((j + 1) <= (rangos.Length - 2))
+                                    for (int j = 0; j <= (rangos.Length - 2); j++)
                                     {
-                                        if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
-                                        { // Ordena el array de mayor a menor, cambiar el "<" a ">" para ordenar de menor a mayor
-                                            temporalTem = Datos.rangos[j];
-                                            Datos.rangos[j] = Datos.rangos[j + 1];
-                                            Datos.rangos[j + 1] = temporalTem;
+                                        if ((j + 1) <= (rangos.Length - 2))
+                                        {
+                                            if (Datos.rangos[j].MinTemp > Datos.rangos[j + 1].MinTemp)
+                                            { 
+                                                temporalTem = Datos.rangos[j];
+                                                Datos.rangos[j] = Datos.rangos[j + 1];
+                                                Datos.rangos[j + 1] = temporalTem;
+                                            }
                                         }
                                     }
                                 }
-                            }
                        
                         Datos.displayRefresh = int.Parse(e.Command.Arguments[1].ToString());
                         Datos.refresh = int.Parse(e.Command.Arguments[2].ToString());
@@ -205,9 +208,11 @@ namespace NetduinoController.Web
                         e.ReturnString = redirect("index");
                         break;
                     }
+                #endregion
+                #region START
                 case "start":
                     {
-                        // Check the password is correct
+                        // Control de contraseña
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
                             msgAux = "La constrase&ntilde;a es incorrecta.";
@@ -215,7 +220,7 @@ namespace NetduinoController.Web
                             break;
                         }
 
-                        // Check we're not in cometition
+                        // Control de que no estamos en competicion
                         if (Datos.competi)
                         {
                             msgAux = "Ya estamos en competici&oacute;n.";
@@ -227,13 +232,13 @@ namespace NetduinoController.Web
                         Datos.timeInRangeTemp = 0;
 
                         Thread nuevaRonda = new Thread(Program.startRound);
-                        nuevaRonda.Start();
+                        // Lanzamos el hilo para arranzar la ronda
+                        nuevaRonda.Start(); 
                         Datos.competi = true;
-                        //msgAux = "Ya estamos en competici&oacute;n.";
-                        //e.ReturnString = redirect("index");
+                       
                         while (Datos.competi)
                         {
-                            
+                            // Comprobamos que hems conseguido el tiempo de la ronda para empezar la nueva. 
                             if(Datos.roundTimeAux == 0 && Datos.rangos[rounds+1] != null && rounds < (Datos.rangos.Length - 1))
                             {
                                 Debug.Print("--------------------------------------INSERTANDO NUEVOS DATOS DE RONDA------------------------------");
@@ -265,13 +270,13 @@ namespace NetduinoController.Web
                             break;
                         }
                        
-
-
                         break;
                     }
+                #endregion
+                #region MODO ENFRIAMIENTO
                 case "coolermode":
                     {
-                        // Check the password is correct
+                        // Miramos que la contraseña es correcta
                         if (!e.Command.Arguments[0].Equals(pass))
                         {
                             msgAux = "La constrase&ntilde;a es incorrecta.";
@@ -279,7 +284,7 @@ namespace NetduinoController.Web
                             break;
                         }
 
-                        // Check we're not in cometition or ready for it
+                        // Comrpbamos que no estamos en competicion
                         if (ready)
                         {
                             msgAux = "No se puede activar este modo en competici&oacute;n ni una vez preparado el sistema.";
@@ -287,36 +292,43 @@ namespace NetduinoController.Web
                             break;
                         }
 
-                        // Starts the cooler mode
+                        // Lanzamos el hilo de modo enfriamiento
                         new Thread(Program.coolerMode).Start();
 
                         msgAux = "Se ha iniciado el modo enfriamiento satisfactoriamente.";
                         e.ReturnString = redirect("index");
                         break;
                     }
+                #endregion
+                #region TEMPERATURE CHECK
                 case "temp":
                     {
                         msgAux = "La temperatura del sistema es de " + Datos.tempAct + "C.";
                         e.ReturnString = redirect("index");
                         break;
                     }
+                #endregion
+                #region TIME CHECK
                 case "time":
                     {
                         msgAux = "El tiempo que se ha mantenido en el rango de temperatura es de " + Datos.timeInRangeTemp+ "s.";
                         e.ReturnString = redirect("index");
                         break;
                     }
+               #endregion
             }
         }
+        #endregion
 
+        #region HTML
         /// <summary>
-        /// Create an HTML webpage.
+        /// Crea una pagina HTML estática.
         /// </summary>
         /// <param name="message">The message you want to be shown.</param>
         /// <returns>String with the HTML page desired.</returns>
         public static string writeHTML(String message)
         {
-            // If we are already ready, disable all the inputs
+            // si ready = true, bloqueamos los inputs
             string disabled = "";
             if (ready) disabled = "disabled";
 
@@ -329,21 +341,29 @@ namespace NetduinoController.Web
             string cooler = "<a href='#' onclick='coolerMode()'>Modo Enfriamiento</a>";
             if (ready) cooler = "";
             string inputText = "";
+
             //Write the HTML page
             string html = "<!DOCTYPE html><html><head><title>Grupo 1 MDV</title>" +
 
                             "<script type='text/javascript'>" +
                             "var i = 1;" +
                             "var dataInput; "+
-                                 
-                                "function set(){"+
+
+                                /// <summary>
+                                /// Esta funcion lo que hace es enviar estas 4 variables por los argumentos para posteriormente guardarlas en la variable 'Datos.roundQueue'
+                                /// nos redirige al caso 'setround'
+                                /// </summary>
+                                "function set(){" + // set() 
                                     "var tempMax = document.forms['params']['tempMax'].value;" +
                                     "var tempMin = document.forms['params']['tempMin'].value;" +
                                     "var time = document.forms['params']['time'].value;" +
                                     "var globalTime = document.forms['params']['tiempoGlobal'].value;" +
                                     "window.location = 'http://" + IP + "/setround/'+ tempMax +'/'+ tempMin +'/'+ time + '/' + globalTime;" +
                                 "}" +
-                                                
+                                /// <summary>
+                                /// Esta funcion setea todos los parametros restantes, como cadencia de refresco, etc. 
+                                /// Nos redirige al caso 'setparams'
+                                /// </summary>         
                                 "function save(){" + // save()
 
                                     "var tempMax = document.forms['params']['tempMax'].value;" +
@@ -376,7 +396,9 @@ namespace NetduinoController.Web
                                     "var pass = document.forms['params']['pass'].value;"+
                                     "window.location = 'http://" + IP + "/coolermode/' + pass;"+
                                 "}"+
-                            
+                                /// <summary>
+                                /// esta funcion fue creada con el proposito de imprimir en el navegador todos los rangos que el profesor nos incique. No le hemos dado uso. 
+                                /// </summary>
                                 "function crearRango(){" + // crearRango()
 
                                     "mNewObj = document.createElement('div');" +
@@ -432,9 +454,11 @@ namespace NetduinoController.Web
 
             return html;
         }
+        #endregion
 
+        #region Redirect Page
         /// <summary>
-        /// Create an HTML page that redirect to the desired page. (used to prevent params like password showing in the url)
+        /// Crea un enlace para redirigir a la pagina deseada. Peticiones POST para evitar que se envien los parametros como contraseña a traves del url
         /// </summary>
         /// <param name="page">The page you want to redirect.</param>
         /// <returns>String with the HTML page desired.</returns>
@@ -442,8 +466,9 @@ namespace NetduinoController.Web
         {
             return "<!DOCTYPE html><html><head><meta http-equiv='refresh' content='0; url=http://" + IP + "/" + page + "'></head></html>";
         }
+        #endregion
 
-        
+
 
     }
 }

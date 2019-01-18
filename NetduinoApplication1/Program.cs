@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using Microsoft.SPOT;
 using Microsoft.SPOT.Hardware;
-using SecretLabs.NETMF.Hardware;
-//using SecretLabs.NETMF.Hardware.OneWire;
 using SecretLabs.NETMF.Hardware.NetduinoPlus;
 using NetduinoController.Web;
 using NETDuinoWar;
@@ -16,36 +12,30 @@ namespace NetduinoController
 {
     public class Program {
 
+        // Los PINS a utilizar. 
         private static OutputPort Secador = new OutputPort(Pins.GPIO_PIN_D13, false);
         private static OutputPort Ventilador1 = new OutputPort(Pins.GPIO_PIN_D12, false);
         private static OutputPort Ventilador2 = new OutputPort(Pins.GPIO_PIN_D10, false); 
         private static OutputPort led = new OutputPort(Pins.ONBOARD_LED, false);
         private static OutputPort ledCool = new OutputPort(Pins.GPIO_PIN_A0, false);
         
-
-        
         public static void Main() {
-            // Create a WebServer
-
-            off(); // apago los componentes
+           
+            off(); // primero nos aseguramos de que este todo apagado
             MyWebServer server = new MyWebServer();
             I2CDevice sensor = new I2CDevice(new I2CDevice.Configuration(0x48, 50));
            
-            server.Start();
+            server.Start();// Lanzamos el servidor
 
             Thread LecturaTemperatura = new Thread(readTemp);
-            LecturaTemperatura.Start();
+            LecturaTemperatura.Start();// mostamos el LCD los datos correspondientes
             
             TimeController timecontroller = new TimeController();
-
             bool configured;
             string errorMessage = null;
-            // el segundo argumento tiene que ser la suma de los arrays ^^^^
             configured =  timecontroller.Configure(Datos.rangos, 100000, 500, out errorMessage);
-            
-            
         }
-
+        #region Comienzo de ronda
         /// <summary>
         /// Starts one round of the competition.
         /// </summary>
@@ -61,8 +51,14 @@ namespace NetduinoController
             parpadeo.Start();
             contadorPuntos.Start();
         }
+        #endregion
+
+        #region Temporizador
         /// <summary>
-        /// Starts a timer that will indicate when the round finish
+        /// funcion para determinar el tiempo restante de la ronda, Tambien se ecarga de terminar la partida en caso de obtener temperaturas muy elevadas.
+        /// ---> En el IF STATEMENT podeis ver que hay una comprobacion de que si es inferior a los 50 grados. Esto es porque en reiteradas veces el sensor
+        /// da unos picos muy elevados de temperaturas superiores a los 80 grados o incluso a los 4,000. Esto son errores de contacto en el cableado y por lo tanto 
+        /// hemos tenido que corregirlo acotandolo a temperaturas menores de 50. 
         /// </summary>
         private static void timer() {
             Datos.competi = true;
@@ -80,8 +76,13 @@ namespace NetduinoController
             }
             Datos.finishBattle = true; 
             Datos.competi = false;
-
         }
+        #endregion
+
+        #region Conteo de segundos en rango
+        /// <summary>
+        /// Funcion para acumular puntos dentro del rango.
+        /// </summary>
         private static void pointCounter()
         {
             while (Datos.competi)
@@ -99,10 +100,11 @@ namespace NetduinoController
                 }
             }
         }
-                        
+        #endregion
 
+        #region Parpadeo OnboardLed
         /// <summary>
-        /// Blinks the onboard led while we're in competition
+        /// Funcion para indicar a través de un led que etamos en modo combate. 
         /// </summary>
         private static void blink() {
             while (Datos.competi) {
@@ -111,8 +113,11 @@ namespace NetduinoController
             }
             led.Write(false);
         }
+        #endregion
+
+        #region OFF
         /// <summary>
-        /// Esta funcion es para pagar todos los controladores
+        /// Funcion para apagar lso ventiladores y elsecador
         /// </summary>
         public static void off()
         {
@@ -120,7 +125,12 @@ namespace NetduinoController
             Ventilador1.Write(false);
             Ventilador2.Write(false);
         }
+        #endregion
 
+        #region Modo Enfriamiento
+        /// <summary>
+        /// Funcion Para mantener el sistema en 15 grados. Listo par ael combate.
+        /// </summary> 
         public static void coolerMode()
         {
             Datos.coolerMode = true;
@@ -141,14 +151,11 @@ namespace NetduinoController
                 }  
             }
         }
+        #endregion
 
-        private static void tempRegulate()
-        {
-
-        }
-
+        #region Lectura de sensor, escritura en LCD y manejo de relays
         /// <summary>
-        /// Refresh the temp reading the sensor
+        /// Funcion encargada de 3 cosas: Leer el sensor, mostrar datos por LCD y controlar el encendido y apagado de los relays.
         /// </summary>
         private static void readTemp() {
 
@@ -272,5 +279,6 @@ namespace NetduinoController
                 }
             }
         }
+        #endregion
     } // Program
 } // namespace
